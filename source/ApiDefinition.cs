@@ -174,6 +174,12 @@ namespace ApptentiveSDK.iOS
         IntPtr Constructor(string apptentiveKey, string apptentiveSignature);
     }
 
+    // @interface ApptentiveNavigationController : UINavigationController
+    [BaseType(typeof(UINavigationController))]
+    interface ApptentiveNavigationController
+    {
+    }
+
     // @interface Apptentive : NSObject
     [BaseType(typeof(NSObject))]
     interface Apptentive
