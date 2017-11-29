@@ -19,6 +19,10 @@ namespace ApptentiveSample
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            // Example of how to override UIAppearance on a View Controller basis
+            this.Window.TintColor = UIColor.Red;
+            UIView.AppearanceWhenContainedIn(new System.Type[] { typeof(ApptentiveNavigationController) }).TintColor = UIColor.Blue;
+
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
             var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
