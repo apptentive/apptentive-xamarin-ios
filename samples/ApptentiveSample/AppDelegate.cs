@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using UIKit;
 using ApptentiveSDK.iOS;
+using System;
 
 namespace ApptentiveSample
 {
@@ -24,6 +25,13 @@ namespace ApptentiveSample
             var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
             configuration.LogLevel = ApptentiveLogLevel.Verbose;
             Apptentive.Register(configuration);
+
+            var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                               UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                               new NSSet());
+
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
+            UIApplication.SharedApplication.RegisterForRemoteNotifications();
 
             return true;
         }
@@ -57,6 +65,27 @@ namespace ApptentiveSample
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+        }
+
+        public override void RegisteredForRemoteNotifications(
+UIApplication application, NSData deviceToken)
+        {
+            Apptentive.Shared.SetPushNotificationIntegration(ApptentivePushProvider.Apptentive, deviceToken);
+        }
+
+        public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
+        {
+            Console.WriteLine("Push registration failed.");
+        }
+
+        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        {
+            Apptentive.Shared.DidReceiveRemoteNotification(userInfo, this.Window.RootViewController, completionHandler);
+        }
+
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            Apptentive.Shared.DidReceiveLocalNotification(notification, this.Window.RootViewController);
         }
     }
 }
