@@ -67,8 +67,7 @@ namespace ApptentiveSample
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
         }
 
-        public override void RegisteredForRemoteNotifications(
-UIApplication application, NSData deviceToken)
+        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
             Apptentive.Shared.SetPushNotificationIntegration(ApptentivePushProvider.Apptentive, deviceToken);
         }
