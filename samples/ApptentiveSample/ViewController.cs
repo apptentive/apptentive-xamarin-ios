@@ -20,7 +20,7 @@ namespace ApptentiveSample
 
             EngageButton.TouchUpInside += delegate {
                 var eventName = EventNameTextField.Text;
-                Apptentive.Shared.Engage(eventName, this);
+                Apptentive.Shared.Engage(eventName, this, (engaged) => Console.WriteLine("Event engaged: " + engaged) );
             };
 
             MessageCenterButton.TouchUpInside += delegate {
