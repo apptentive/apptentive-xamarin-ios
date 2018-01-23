@@ -47,7 +47,7 @@ public partial class ViewController : UIViewController
 
         MessageCenterButton.TouchUpInside += delegate
         {
-            Apptentive.Shared.PresentMessageCenter(this);
+            Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
         };
     }
 }
@@ -92,7 +92,7 @@ Events record user interaction. You can use them to determine if and when an Int
 var engageButton = FindViewById<Button>(...);
 engageButton.Click += delegate
 {
-    Apptentive.Shared.Engage("my_event", this); // assuming 'this' is a ViewController
+    Apptentive.Shared.Engage("my_event", this, (engaged) => Console.WriteLine("Event engaged: " + engaged) ); // assuming 'this' is a ViewController
 };
 ```
 

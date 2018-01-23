@@ -206,21 +206,33 @@ namespace ApptentiveSDK.iOS
         [NullAllowed, Export("appID")]
         string AppID { get; set; }
 
-        // -(BOOL)engage:(NSString * _Nonnull)event fromViewController:(UIViewController * _Nullable)viewController;
+        // -(void)engage:(NSString * _Nonnull)event fromViewController:(UIViewController * _Nullable)viewController;
         [Export("engage:fromViewController:")]
-        bool Engage(string @event, [NullAllowed] UIViewController viewController);
+        void Engage(string @event, [NullAllowed] UIViewController viewController);
 
-        // -(BOOL)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData fromViewController:(UIViewController * _Nullable)viewController;
+        // -(void)engage:(NSString * _Nonnull)event fromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("engage:fromViewController:completion:")]
+        void Engage(string @event, [NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+
+        // -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData fromViewController:(UIViewController * _Nullable)viewController;
         [Export("engage:withCustomData:fromViewController:")]
-        bool Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] UIViewController viewController);
+        void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] UIViewController viewController);
 
-        // -(BOOL)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData withExtendedData:(NSArray<NSDictionary *> * _Nullable)extendedData fromViewController:(UIViewController * _Nullable)viewController;
+        // -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData fromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("engage:withCustomData:fromViewController:completion:")]
+        void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+
+        // -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData withExtendedData:(NSArray<NSDictionary *> * _Nullable)extendedData fromViewController:(UIViewController * _Nullable)viewController;
         [Export("engage:withCustomData:withExtendedData:fromViewController:")]
-        bool Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] NSDictionary[] extendedData, [NullAllowed] UIViewController viewController);
+        void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] NSDictionary[] extendedData, [NullAllowed] UIViewController viewController);
 
-        // -(BOOL)canShowInteractionForEvent:(NSString * _Nonnull)event;
-        [Export("canShowInteractionForEvent:")]
-        bool CanShowInteraction(string @event);
+        // -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData withExtendedData:(NSArray<NSDictionary *> * _Nullable)extendedData fromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("engage:withCustomData:withExtendedData:fromViewController:completion:")]
+        void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] NSDictionary[] extendedData, [NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+
+        // -(void)queryCanShowInteractionForEvent:(NSString * _Nonnull)event completion:(void (^ _Nonnull)(BOOL))completion;
+        [Export("queryCanShowInteractionForEvent:completion:")]
+        void QueryCanShowInteraction(string @event, Action<bool> completion);
 
         // +(NSDictionary * _Nonnull)extendedDataDate:(NSDate * _Nonnull)date;
         [Static]
@@ -242,17 +254,25 @@ namespace ApptentiveSDK.iOS
         [Export("extendedDataCommerceItemWithItemID:name:category:price:quantity:currency:")]
         NSDictionary ExtendedDataCommerce([NullAllowed] string itemID, [NullAllowed] string name, [NullAllowed] string category, [NullAllowed] NSNumber price, [NullAllowed] NSNumber quantity, [NullAllowed] string currency);
 
-        // @property (readonly, nonatomic) BOOL canShowMessageCenter;
-        [Export("canShowMessageCenter")]
-        bool CanShowMessageCenter { get; }
+        // -(void)queryCanShowMessageCenterWithCompletion:(void (^ _Nonnull)(BOOL))completion;
+        [Export("queryCanShowMessageCenterWithCompletion:")]
+        void QueryCanShowMessageCenter(Action<bool> completion);
 
-        // -(BOOL)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController;
+        // -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController;
         [Export("presentMessageCenterFromViewController:")]
-        bool PresentMessageCenter([NullAllowed] UIViewController viewController);
+        void PresentMessageCenter([NullAllowed] UIViewController viewController);
 
-        // -(BOOL)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController withCustomData:(NSDictionary * _Nullable)customData;
+        // -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("presentMessageCenterFromViewController:completion:")]
+        void PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+
+        // -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController withCustomData:(NSDictionary * _Nullable)customData;
         [Export("presentMessageCenterFromViewController:withCustomData:")]
-        bool PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] NSDictionary customData);
+        void PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] NSDictionary customData);
+
+        // -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController withCustomData:(NSDictionary * _Nullable)customData completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("presentMessageCenterFromViewController:withCustomData:completion:")]
+        void PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] NSDictionary customData, [NullAllowed] Action<bool> completion);
 
         // -(void)dismissMessageCenterAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
         [Export("dismissMessageCenterAnimated:completion:")]

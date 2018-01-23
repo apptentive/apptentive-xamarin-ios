@@ -78,7 +78,7 @@ namespace ApptentiveSample
 
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
-            Console.WriteLine("Push registration failed.");
+            Console.WriteLine("Push registration failed: " + error.LocalizedDescription);
         }
 
         public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)

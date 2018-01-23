@@ -20,19 +20,20 @@ namespace ApptentiveSample
 
             EngageButton.TouchUpInside += delegate {
                 var eventName = EventNameTextField.Text;
-                Apptentive.Shared.Engage(eventName, this);
+                Apptentive.Shared.Engage(eventName, this, (engaged) => Console.WriteLine("Event engaged: " + engaged) );
             };
 
             MessageCenterButton.TouchUpInside += delegate {
-                Apptentive.Shared.PresentMessageCenter(this);
+                Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
             };
 
             CanShowInteractionButton.TouchUpInside += delegate {
                 var eventName = EventNameTextField.Text;
-                var canShow = Apptentive.Shared.CanShowInteraction(eventName);
-                var alertController = UIAlertController.Create("Apptentive", canShow ? "Yes" : "No", UIAlertControllerStyle.Alert);
-                alertController.AddAction(UIAlertAction.Create("Close", UIAlertActionStyle.Cancel, (obj) => alertController.DismissViewController(true, null)));
-                PresentViewController(alertController, true, null);
+                Apptentive.Shared.QueryCanShowInteraction(eventName, (canShow) => {
+                    var alertController = UIAlertController.Create("Apptentive", canShow ? "Yes" : "No", UIAlertControllerStyle.Alert);
+                    alertController.AddAction(UIAlertAction.Create("Close", UIAlertActionStyle.Cancel, (obj) => alertController.DismissViewController(true, null)));
+                    PresentViewController(alertController, true, null);
+                });
             };
 
             UpdateUnreadMessagesCount();
