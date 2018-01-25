@@ -182,7 +182,7 @@ namespace ApptentiveSDK.iOS
 
     // @interface Apptentive : NSObject
     [BaseType(typeof(NSObject))]
-    interface Apptentive
+    interface Apptentive : IUNUserNotificationCenterDelegate
     {
         // @property (readonly, nonatomic, class) Apptentive * _Nonnull shared;
         [Static]
@@ -309,6 +309,10 @@ namespace ApptentiveSDK.iOS
         // -(BOOL)didReceveUserNotificationResponse:(UNNotificationResponse * _Nonnull)response withCompletionHandler:(void (^ _Nonnull)(void))completionHandler;
         [Export("didReceveUserNotificationResponse:withCompletionHandler:")]
         bool DidReceveUserNotification(UNNotificationResponse response, Action completionHandler);
+
+        // - (BOOL)willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler;
+        [Export("willPresentNotification:withCompletionHandler:")]
+        bool WillPresentNotification(UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler);
 
         // -(void)sendAttachmentText:(NSString * _Nonnull)text;
         [Export("sendAttachmentText:")]
