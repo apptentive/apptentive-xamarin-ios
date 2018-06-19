@@ -92,6 +92,7 @@
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="AuthenticationViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -107,6 +108,10 @@
     <Compile Include="DataViewController.cs" />
     <Compile Include="DataViewController.designer.cs">
       <DependentUpon>DataViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AuthenticationViewController.cs" />
+    <Compile Include="AuthenticationViewController.designer.cs">
+      <DependentUpon>AuthenticationViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -57,11 +57,22 @@ namespace ApptentiveSample
         {
             base.PrepareForSegue(segue, sender);
 
-            DataViewController VC = (DataViewController)segue.DestinationViewController;
+            if (segue.Identifier == "Authentication")
+            {
+                AuthenticationViewController VC = (AuthenticationViewController)segue.DestinationViewController;
 
-            if (sender == UserDataButton) {
+                // do stuff
+            }
+            else if (segue.Identifier == "PersonData")
+            {
+                DataViewController VC = (DataViewController)segue.DestinationViewController;
+
                 VC.Source = DataViewControllerSource.Person;
-            } else {
+            }
+            else if (segue.Identifier == "DeviceData")
+            {
+                DataViewController VC = (DataViewController)segue.DestinationViewController;
+
                 VC.Source = DataViewControllerSource.Device;
             }
         }
