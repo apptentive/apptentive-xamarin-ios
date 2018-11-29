@@ -1,10 +1,11 @@
 // WARNING
 //
-// This file has been generated automatically by Visual Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Visual Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
 using Foundation;
+using System;
 using System.CodeDom.Compiler;
 
 namespace ApptentiveSample
@@ -32,12 +33,12 @@ namespace ApptentiveSample
 
         [Outlet]
         UIKit.UISegmentedControl typeControl { get; set; }
-        
+
         void ReleaseDesignerOutlets ()
         {
-            if (typeControl != null) {
-                typeControl.Dispose ();
-                typeControl = null;
+            if (addButton != null) {
+                addButton.Dispose ();
+                addButton = null;
             }
 
             if (booleanSwitch != null) {
@@ -50,24 +51,24 @@ namespace ApptentiveSample
                 dataTextField = null;
             }
 
-            if (nameTextField != null) {
-                nameTextField.Dispose ();
-                nameTextField = null;
-            }
-
             if (emailTextField != null) {
                 emailTextField.Dispose ();
                 emailTextField = null;
             }
 
-            if (addButton != null) {
-                addButton.Dispose ();
-                addButton = null;
-            }
-
             if (keyTextField != null) {
                 keyTextField.Dispose ();
                 keyTextField = null;
+            }
+
+            if (nameTextField != null) {
+                nameTextField.Dispose ();
+                nameTextField = null;
+            }
+
+            if (typeControl != null) {
+                typeControl.Dispose ();
+                typeControl = null;
             }
         }
     }
