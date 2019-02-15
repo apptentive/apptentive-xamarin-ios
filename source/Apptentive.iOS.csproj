@@ -31,6 +31,9 @@
     <Reference Include="System" />
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>xamarinios10</TargetFramework>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApptentiveConfiguration.cs" />
