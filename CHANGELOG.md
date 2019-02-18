@@ -4,6 +4,10 @@ This document lets you know what has changed in the Xamarin.iOS package. For cha
 
 - [iOS Changelog](https://github.com/apptentive/apptentive-ios/blob/master/CHANGELOG.md)
 
+# 2018-11-29 - v5.2.4
+
+- Add target framework to project file
+
 # 2018-11-29 - v5.2.3
 
 - Apptentive iOS SDK: 5.2.3
