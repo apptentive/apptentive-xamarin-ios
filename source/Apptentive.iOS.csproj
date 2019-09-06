@@ -45,7 +45,7 @@
     <ObjcBindingCoreSource Include="Structs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="Externals\libapptentive-ios-5.2.3.a">
+    <NativeReference Include="Externals\libapptentive-ios-5.2.5.a">
       <Kind>Static</Kind>
       <SmartLink>False</SmartLink>
       <LinkerFlags>-ObjC -all_load</LinkerFlags>
@@ -131,16 +131,10 @@
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\NoPayloadNavigation.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\SurveyNavigation.nib\objects-11.0+.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\SurveyNavigation.nib\runtime.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\UpgradeMessage.nib\objects-11.0+.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\UpgradeMessage.nib\runtime.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\UpgradeMessageNavigation.nib\objects-11.0+.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\UpgradeMessageNavigation.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\Vhy-th-mTJ-view-RoE-zy-OMj.nib\objects-11.0+.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\Vhy-th-mTJ-view-RoE-zy-OMj.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\W0l-Dy-ioE-view-IzQ-h6-djc.nib\objects-11.0+.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\W0l-Dy-ioE-view-IzQ-h6-djc.nib\runtime.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\WnK-TF-euS-view-b8z-vy-rbq.nib\objects-11.0+.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\WnK-TF-euS-view-b8z-vy-rbq.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\dl0-K5-Mv3-view-OZg-SV-V5r.nib\objects-11.0+.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\dl0-K5-Mv3-view-OZg-SV-V5r.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\ar.lproj\Localizable.strings" />
