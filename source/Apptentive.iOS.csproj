@@ -131,8 +131,6 @@
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\NoPayloadNavigation.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\SurveyNavigation.nib\objects-11.0+.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\SurveyNavigation.nib\runtime.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\UpgradeMessage.nib\objects-11.0+.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\UpgradeMessage.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\UpgradeMessageNavigation.nib\objects-11.0+.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\UpgradeMessageNavigation.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\Vhy-th-mTJ-view-RoE-zy-OMj.nib\objects-11.0+.nib" />
