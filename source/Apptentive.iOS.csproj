@@ -135,8 +135,6 @@
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\Vhy-th-mTJ-view-RoE-zy-OMj.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\W0l-Dy-ioE-view-IzQ-h6-djc.nib\objects-11.0+.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\W0l-Dy-ioE-view-IzQ-h6-djc.nib\runtime.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\WnK-TF-euS-view-b8z-vy-rbq.nib\objects-11.0+.nib" />
-    <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\WnK-TF-euS-view-b8z-vy-rbq.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\dl0-K5-Mv3-view-OZg-SV-V5r.nib\objects-11.0+.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\Apptentive.storyboardc\dl0-K5-Mv3-view-OZg-SV-V5r.nib\runtime.nib" />
     <BundleResource Include="Resources\ApptentiveResources.bundle\ar.lproj\Localizable.strings" />
