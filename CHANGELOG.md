@@ -4,7 +4,7 @@ This document lets you know what has changed in the Xamarin.iOS package. For cha
 
 - [iOS Changelog](https://github.com/apptentive/apptentive-ios/blob/master/CHANGELOG.md)
 
-# 2020-07-08 - v5.2.9
+# 2020-07-08 - v5.2.14
 
 - Apptentive iOS SDK: 5.2.14
 
