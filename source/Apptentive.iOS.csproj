@@ -45,7 +45,7 @@
     <ObjcBindingCoreSource Include="Structs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="Externals\libapptentive-ios-5.2.14.a">
+    <NativeReference Include="Externals\libapptentive-ios-5.3.1.a">
       <Kind>Static</Kind>
       <SmartLink>False</SmartLink>
       <LinkerFlags>-ObjC -all_load</LinkerFlags>
