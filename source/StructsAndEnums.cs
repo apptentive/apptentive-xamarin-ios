@@ -1,18 +1,16 @@
+using System;
 using ObjCRuntime;
 
-namespace ApptentiveKit.iOS
+namespace ApptentiveSDK.iOS
 {
-	// We currently need this because the Swift log level property isn't
-	// exportable as Objective-C
-	[Native]
-	public enum ApptentiveLogLevel : ulong
-	{
-		Undefined = 0,
-		Crit = 1,
-		Error = 2,
-		Warn = 3,
-		Info = 4,
-		Debug = 5,
-		Verbose = 6
-	}
+    [Native]
+    public enum ApptentiveLogLevel : ulong
+    {
+        Crit = 0,
+        Error = 1,
+        Warn = 2,
+        Info = 3,
+        Debug = 4,
+        Verbose = 5
+    }
 }

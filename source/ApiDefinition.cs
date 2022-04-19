@@ -1,5 +1,4 @@
 using System;
-using ApptentiveKit;
 using Foundation;
 using ObjCRuntime;
 using UIKit;
