@@ -73,7 +73,7 @@ namespace ApptentiveSample
 
         public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
-            Apptentive.Shared.SetRemoteNotifcationDeviceToken(deviceToken);
+            Apptentive.Shared.SetRemoteNotificationDeviceToken(deviceToken);
         }
 
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
