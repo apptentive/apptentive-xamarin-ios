@@ -13,7 +13,8 @@ public class AppDelegate : UIApplicationDelegate
     {
         ...
     
-      Apptentive.Shared.RegisterWithKey("Key", "Signature", (registered) => System.Console.WriteLine("Registered"));
+        var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
+        Apptentive.Register(configuration);
 
         return true;
     }
@@ -46,7 +47,7 @@ public partial class ViewController : UIViewController
 
         MessageCenterButton.TouchUpInside += delegate
         {
-            Apptentive.Shared.PresentMessageCenterFrom(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
+            Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
         };
     }
 }
