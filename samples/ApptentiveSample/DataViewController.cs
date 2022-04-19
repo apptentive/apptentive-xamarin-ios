@@ -47,11 +47,11 @@ namespace ApptentiveSample
                         {
                             if (Source == DataViewControllerSource.Person)
                             {
-                                Apptentive.Shared.AddCustomPersonDataString(text, key);
+                                Apptentive.Shared.AddCustomPersonData(text, key);
                             }
                             else
                             {
-                                Apptentive.Shared.AddCustomDeviceDataString(text, key);
+                                Apptentive.Shared.AddCustomDeviceData(text, key);
                             }
                         } else {
                             shouldClearFields = false;
@@ -63,11 +63,11 @@ namespace ApptentiveSample
                         {
                             if (Source == DataViewControllerSource.Person)
                             {
-                                Apptentive.Shared.AddCustomPersonDataNumber(result, key);
+                                Apptentive.Shared.AddCustomPersonData(result, key);
                             }
                             else
                             {
-                                Apptentive.Shared.AddCustomDeviceDataNumber(result, key);
+                                Apptentive.Shared.AddCustomDeviceData(result, key);
                             }
                         } else {
                             shouldClearFields = false;
@@ -76,11 +76,11 @@ namespace ApptentiveSample
                     case 2:
                         if (Source == DataViewControllerSource.Person)
                         {
-                            Apptentive.Shared.AddCustomPersonDataBool(booleanSwitch.On, key);
+                            Apptentive.Shared.AddCustomPersonData(booleanSwitch.On, key);
                         }
                         else
                         {
-                            Apptentive.Shared.AddCustomDeviceDataBool(booleanSwitch.On, key);
+                            Apptentive.Shared.AddCustomDeviceData(booleanSwitch.On, key);
                         }
                         break;
                 }

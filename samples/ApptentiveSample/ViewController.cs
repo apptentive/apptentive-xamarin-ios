@@ -1,7 +1,7 @@
 ﻿using System;
 
 using UIKit;
-using ApptentiveKit.iOS;
+using ApptentiveSDK.iOS;
 using Foundation;
 
 namespace ApptentiveSample
@@ -28,12 +28,12 @@ namespace ApptentiveSample
             };
 
             MessageCenterButton.TouchUpInside += delegate {
-                Apptentive.Shared.PresentMessageCenterFromViewController(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
+                Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
             };
 
             CanShowInteractionButton.TouchUpInside += delegate {
                 var eventName = EventNameTextField.Text;
-                Apptentive.Shared.QueryCanShowInteractionForEvent(eventName, (canShow) => {
+                Apptentive.Shared.QueryCanShowInteraction(eventName, (canShow) => {
                     var alertController = UIAlertController.Create("Apptentive", canShow ? "Yes" : "No", UIAlertControllerStyle.Alert);
                     alertController.AddAction(UIAlertAction.Create("Close", UIAlertActionStyle.Cancel, (obj) => alertController.DismissViewController(true, null)));
                     PresentViewController(alertController, true, null);
