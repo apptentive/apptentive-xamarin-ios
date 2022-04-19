@@ -1,8 +1,7 @@
 ﻿using Foundation;
 using UIKit;
-using ApptentiveKit.iOS;
 using System;
-
+using ApptentiveKit.iOS;
 
 namespace ApptentiveSample
 {
@@ -74,7 +73,7 @@ namespace ApptentiveSample
 
         public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
-            Apptentive.Shared.SetRemoteNotifcationDeviceToken(deviceToken);
+            Apptentive.Shared.SetRemoteNotificationDeviceToken(deviceToken);
         }
 
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
