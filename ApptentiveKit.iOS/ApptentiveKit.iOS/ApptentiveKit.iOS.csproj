@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,6 +11,7 @@
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>NativeLibrary</AssemblyName>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+<NoBindingEmbedding>true</NoBindingEmbedding>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,8 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <NativeReference Include="..\..\ApptentiveKit.xcframework">
-      <Kind>Static</Kind>
-      <SmartLink>False</SmartLink>
+      <Kind>Framework</Kind>
     </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
