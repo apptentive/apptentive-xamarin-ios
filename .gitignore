@@ -80,3 +80,7 @@ Defaults.plist
 
 # Visual Studio files
 .vs/
+
+# Build results
+[Bb]in/
+[Oo]bj/
