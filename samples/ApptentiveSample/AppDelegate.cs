@@ -1,6 +1,6 @@
 ﻿using Foundation;
 using UIKit;
-using ApptentiveKit.iOS;
+using ApptentiveSDK.iOS;
 using System;
 
 
