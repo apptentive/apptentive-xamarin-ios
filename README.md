@@ -13,10 +13,9 @@ public class AppDelegate : UIApplicationDelegate
     {
         ...
     
-        var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
-        Apptentive.Register(configuration);
+   Apptentive.Shared.RegisterWithKey("Your Apptentive Key", "Your Apptentive Signature", (registered) => Console.WriteLine("App Registered."));
 
-        return true;
+   return true;
     }
 }
 ```
@@ -47,7 +46,7 @@ public partial class ViewController : UIViewController
 
         MessageCenterButton.TouchUpInside += delegate
         {
-            Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
+            Apptentive.Shared.PresentMessageCenterFromViewController(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
         };
     }
 }
@@ -61,26 +60,6 @@ var unreadMessageCount = Apptentive.Shared.UnreadMessageCount;
 if (unreadMessageCount > 0)
 {
     Console.WriteLine("You have {0} unread messages", unreadMessageCount);
-}
-```
-
-### Unread Message Count Notification
-
-You can receive a callback when a new unread message comes in. You can use this callback to notify your customer, and display a badge letting them know how many unread messages are waiting for them. Because this listener could be called at any time, you should store the value returned from this method, and then perform any user interaction you desire at the appropriate time.
-```
-public partial class ViewController : UIViewController
-{
-    public override void ViewDidLoad()
-    {
-        base.ViewDidLoad();
-        
-        ...
-        
-        NSNotificationCenter.DefaultCenter.AddObserver(Constants.ApptentiveMessageCenterUnreadCountChangedNotification, (NSNotification obj) =>
-        {
-            UnreadMessagesTextView.Text = "Unread messages: " + Apptentive.Shared.UnreadMessageCount;
-        });
-    }
 }
 ```
 
@@ -118,7 +97,7 @@ When the registration succeeds, your application delegate will have to pass the 
 ```
 public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
 {
-    Apptentive.Shared.SetPushNotificationIntegration(ApptentivePushProvider.Apptentive, deviceToken);
+    Apptentive.Shared.setRemoteNotifcationDeviceToken(deviceToken);
 }
 ```
 
@@ -126,14 +105,11 @@ Your application delegate will also have to forward any push and local notificat
 
 ```
 public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+
 {
     Apptentive.Shared.DidReceiveRemoteNotification(userInfo, this.Window.RootViewController, completionHandler);
 }
 
-public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
-{
-    Apptentive.Shared.DidReceiveLocalNotification(notification, this.Window.RootViewController);
-}
 ```
 
 In place of `this.Window.RootViewController`, you should determine which of your app’s view controllers is currently being displayed and pass that in as the value for the from argument. You can pass nil for the view controller parameter and the SDK will create a new window to present Message Center in.
