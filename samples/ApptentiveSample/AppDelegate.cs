@@ -27,7 +27,7 @@ namespace ApptentiveSample
 
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-            Apptentive.Shared.RegisterWithKey("IOS-OPERATOR-7ee0ab6dcbae", "b6ce9ec3ceae13cacebd2e85ff235b2e", (registered) => System.Console.WriteLine("Registered"));
+            Apptentive.Shared.RegisterWithKey("Key", "Signature", (registered) => System.Console.WriteLine("Registered"));
             Apptentive.Shared.LogLevel = ApptentiveLogLevel.Verbose;
      
 
