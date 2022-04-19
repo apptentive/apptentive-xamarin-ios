@@ -1,4 +1,28 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.ItemProperties.ApptentiveKit.iOS FirstBuild="True" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ApptentiveKit.iOS/Resources/ApiDefinitions.cs">
+    <Files>
+      <File FileName="ApptentiveKit.iOS/Resources/ApiDefinitions.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ApptentiveKit.iOS" expanded="True">
+            <Node name="ApptentiveKit.iOS" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="NativeReferenceFolder" expanded="True" />
+              <Node name="Resources" expanded="True">
+                <Node name="ApiDefinitions.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>
