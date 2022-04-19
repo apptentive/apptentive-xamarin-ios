@@ -66,9 +66,9 @@ namespace ApptentiveSDK.iOS
 		[Export("unreadMessageCount")]
 		nint UnreadMessageCount { get; }
 
-		// -(void)setRemoteNotifcationDeviceToken:(NSData * _Nonnull)tokenData;
-		[Export("setRemoteNotifcationDeviceToken:")]
-		void SetRemoteNotifcationDeviceToken(NSData tokenData);
+		// -(void)setRemoteNotificationDeviceToken:(NSData * _Nonnull)tokenData;
+		[Export("setRemoteNotificationDeviceToken:")]
+		void SetRemoteNotificationDeviceToken(NSData tokenData);
 
 		// -(BOOL)didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler __attribute__((warn_unused_result("")));
 		[Export("didReceiveRemoteNotification:fetchCompletionHandler:")]
