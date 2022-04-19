@@ -77,3 +77,6 @@ iphoneos/
 
 # Credential-type files
 Defaults.plist
+
+# Visual Studio files
+.vs/
