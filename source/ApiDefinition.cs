@@ -5,8 +5,14 @@ using ObjCRuntime;
 using UIKit;
 using UserNotifications;
 
-namespace ApptentiveKit.iOS
+namespace ApptentiveSDK.iOS
 {
+	// @interface ApptentiveNavigationController : UINavigationController
+	[BaseType(typeof(UINavigationController), Name = "_TtC13ApptentiveKit30ApptentiveNavigationController")]
+	interface ApptentiveNavigationController
+	{
+	}
+
 	// @interface Apptentive : NSObject
 	[BaseType (typeof(NSObject), Name = "_TtC13ApptentiveKit10Apptentive")]
 	[DisableDefaultCtor]
@@ -156,11 +162,5 @@ namespace ApptentiveKit.iOS
 		// @property (nonatomic) enum ApptentiveLogLevel logLevel;
 		[Export("logLevel", ArgumentSemantic.Assign)]
 		ApptentiveLogLevel LogLevel { get; set; }
-	}
-
-	// @interface ApptentiveNavigationController : UINavigationController
-	[BaseType (typeof(UINavigationController), Name = "_TtC13ApptentiveKit30ApptentiveNavigationController")]
-	interface ApptentiveNavigationController
-	{
 	}
 }
