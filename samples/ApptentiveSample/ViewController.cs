@@ -1,7 +1,7 @@
 ﻿using System;
 
 using UIKit;
-using ApptentiveSDK.iOS;
+using ApptentiveKit.iOS;
 using Foundation;
 
 namespace ApptentiveSample
@@ -18,28 +18,27 @@ namespace ApptentiveSample
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
 
+            unreadMessageCount.TouchUpInside += delegate {
+                UpdateUnreadMessagesCount();
+            };
+
             EngageButton.TouchUpInside += delegate {
                 var eventName = EventNameTextField.Text;
                 Apptentive.Shared.Engage(eventName, this, (engaged) => Console.WriteLine("Event engaged: " + engaged) );
             };
 
             MessageCenterButton.TouchUpInside += delegate {
-                Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
+                Apptentive.Shared.PresentMessageCenterFromViewController(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
             };
 
             CanShowInteractionButton.TouchUpInside += delegate {
                 var eventName = EventNameTextField.Text;
-                Apptentive.Shared.QueryCanShowInteraction(eventName, (canShow) => {
+                Apptentive.Shared.QueryCanShowInteractionForEvent(eventName, (canShow) => {
                     var alertController = UIAlertController.Create("Apptentive", canShow ? "Yes" : "No", UIAlertControllerStyle.Alert);
                     alertController.AddAction(UIAlertAction.Create("Close", UIAlertActionStyle.Cancel, (obj) => alertController.DismissViewController(true, null)));
                     PresentViewController(alertController, true, null);
                 });
             };
-
-            UpdateUnreadMessagesCount();
-            NSNotificationCenter.DefaultCenter.AddObserver(Constants.ApptentiveMessageCenterUnreadCountChangedNotification, (NSNotification obj) => {
-                UpdateUnreadMessagesCount();
-            });
         }
 
         private void UpdateUnreadMessagesCount()
@@ -57,13 +56,7 @@ namespace ApptentiveSample
         {
             base.PrepareForSegue(segue, sender);
 
-            if (segue.Identifier == "Authentication")
-            {
-                AuthenticationViewController VC = (AuthenticationViewController)segue.DestinationViewController;
-
-                // do stuff
-            }
-            else if (segue.Identifier == "PersonData")
+            if (segue.Identifier == "PersonData")
             {
                 DataViewController VC = (DataViewController)segue.DestinationViewController;
 
