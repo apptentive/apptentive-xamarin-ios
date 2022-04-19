@@ -27,14 +27,6 @@ namespace ApptentiveSDK.iOS
 		[Export("registerWithKey:signature:completion:")]
 		void Register(string key, string signature, [NullAllowed] Action<bool> completion);
 
-		// @property (copy, nonatomic) NSString * _Nullable distributionName;
-		[NullAllowed, Export ("distributionName")]
-		string DistributionName { get; set; }
-
-		// @property (copy, nonatomic) NSString * _Nullable distributionVersion;
-		[NullAllowed, Export ("distributionVersion")]
-		string DistributionVersion { get; set; }
-
 		// -(void)engage:(NSString * _Nonnull)event fromViewController:(UIViewController * _Nullable)viewController;
 		[Export("engage:fromViewController:")]
 		void Engage(string @event, [NullAllowed] UIViewController viewController);
@@ -85,19 +77,11 @@ namespace ApptentiveSDK.iOS
 
 		// -(BOOL)didReceveUserNotificationResponse:(UNNotificationResponse * _Nonnull)response withCompletionHandler:(void (^ _Nonnull)(void))completionHandler __attribute__((warn_unused_result("")));
 		[Export("didReceveUserNotificationResponse:withCompletionHandler:")]
-		bool DidReceveUserNotificationResponse(UNNotificationResponse response, Action completionHandler);
+		bool DidReceveUserNotification(UNNotificationResponse response, Action completionHandler);
 
-		// -(BOOL)willPresent:(UNNotification * _Nonnull)notification withCompletionHandler:(void (^ _Nonnull)(UNNotificationPresentationOptions))completionHandler __attribute__((warn_unused_result("")));
+		// -(BOOL)willPresentNotification:(UNNotification * _Nonnull)notification withCompletionHandler:(void (^ _Nonnull)(UNNotificationPresentationOptions))completionHandler __attribute__((warn_unused_result("")));
 		[Export("willPresentNotification:withCompletionHandler:")]
 		bool WillPresentNotification(UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler);
-
-		// -(void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)center willPresentNotification:(UNNotification * _Nonnull)notification withCompletionHandler:(void (^ _Nonnull)(UNNotificationPresentationOptions))completionHandler;
-		[Export("userNotificationCenter:willPresentNotification:withCompletionHandler:")]
-		void UserNotificationCenter(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler);
-
-		// -(void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)center didReceiveNotificationResponse:(UNNotificationResponse * _Nonnull)response withCompletionHandler:(void (^ _Nonnull)(void))completionHandler;
-		[Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
-		void UserNotificationCenter(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler);
 
 		// -(void)sendAttachmentText:(NSString * _Nonnull)text;
 		[Export("sendAttachmentText:")]
@@ -107,8 +91,8 @@ namespace ApptentiveSDK.iOS
 		[Export("sendAttachmentImage:")]
 		void SendAttachment(UIImage image);
 
-		// -(void)sendAttachmentData:(NSData * _Nonnull)fileData mimeType:(NSString * _Nonnull)mediaType;
-		[Export("sendAttachmentData:mimeType:")]
+		// -(void)sendAttachmentFile:(NSData * _Nonnull)fileData withMimeType:(NSString * _Nonnull)mediaType;
+		[Export("sendAttachmentFile:withMimeType:")]
 		void SendAttachment(NSData fileData, string mimeType);
 
 		// @property (copy, nonatomic) NSString * _Nullable personName;
@@ -162,5 +146,13 @@ namespace ApptentiveSDK.iOS
 		// @property (nonatomic) enum ApptentiveLogLevel logLevel;
 		[Export("logLevel", ArgumentSemantic.Assign)]
 		ApptentiveLogLevel LogLevel { get; set; }
+
+		// @property (copy, nonatomic) NSString * _Nullable distributionName;
+		[NullAllowed, Export("distributionName")]
+		string DistributionName { get; set; }
+
+		// @property (copy, nonatomic) NSString * _Nullable distributionVersion;
+		[NullAllowed, Export("distributionVersion")]
+		string DistributionVersion { get; set; }
 	}
 }
