@@ -23,7 +23,7 @@ namespace ApptentiveSample
         {
             // Example of how to override UIAppearance on a View Controller basis
             this.Window.TintColor = UIColor.Red;
-            UIView.AppearanceWhenContainedIn(new System.Type[] { typeof(ApptentiveNavigationController) }).TintColor = UIColor.Blue;
+            UIView.AppearanceWhenContainedIn(new System.Type[] { typeof(ApptentiveNavigationController) }).TintColor = UIColor.White;
 
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
