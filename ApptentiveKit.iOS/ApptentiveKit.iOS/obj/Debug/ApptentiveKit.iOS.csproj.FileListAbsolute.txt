@@ -1,0 +1,9 @@
+/Users/luqmaankhan/Desktop/apptentive-xamarin-ios/ApptentiveKit.iOS/ApptentiveKit.iOS/bin/Debug/NativeLibrary.resources.stamp
+/Users/luqmaankhan/Desktop/apptentive-xamarin-ios/ApptentiveKit.iOS/ApptentiveKit.iOS/bin/Debug/NativeLibrary.dll
+/Users/luqmaankhan/Desktop/apptentive-xamarin-ios/ApptentiveKit.iOS/ApptentiveKit.iOS/bin/Debug/NativeLibrary.pdb
+/Users/luqmaankhan/Desktop/apptentive-xamarin-ios/ApptentiveKit.iOS/ApptentiveKit.iOS/obj/Debug/_ProcessedBundleResourcesPath.items
+/Users/luqmaankhan/Desktop/apptentive-xamarin-ios/ApptentiveKit.iOS/ApptentiveKit.iOS/obj/Debug/_ProcessedContentPath.items
+/Users/luqmaankhan/Desktop/apptentive-xamarin-ios/ApptentiveKit.iOS/ApptentiveKit.iOS/obj/Debug/ApptentiveKit.iOS.csproj.AssemblyReference.cache
+/Users/luqmaankhan/Desktop/apptentive-xamarin-ios/ApptentiveKit.iOS/ApptentiveKit.iOS/obj/Debug/ApptentiveKit.iOS.csproj.CoreCompileInputs.cache
+/Users/luqmaankhan/Desktop/apptentive-xamarin-ios/ApptentiveKit.iOS/ApptentiveKit.iOS/obj/Debug/NativeLibrary.dll
+/Users/luqmaankhan/Desktop/apptentive-xamarin-ios/ApptentiveKit.iOS/ApptentiveKit.iOS/obj/Debug/NativeLibrary.pdb
