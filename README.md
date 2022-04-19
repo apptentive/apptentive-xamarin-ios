@@ -99,7 +99,7 @@ When the registration succeeds, your application delegate will have to pass the 
 ```
 public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
 {
-    Apptentive.Shared.SetRemoteNotifcationDeviceToken(deviceToken);
+    Apptentive.Shared.SetRemoteNotificationDeviceToken(deviceToken);
 }
 ```
 
