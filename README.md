@@ -13,8 +13,7 @@ public class AppDelegate : UIApplicationDelegate
     {
         ...
     
-        var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
-        Apptentive.Register(configuration);
+      Apptentive.Shared.RegisterWithKey("Key", "Signature", (registered) => System.Console.WriteLine("Registered"));
 
         return true;
     }
@@ -47,7 +46,7 @@ public partial class ViewController : UIViewController
 
         MessageCenterButton.TouchUpInside += delegate
         {
-            Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
+            Apptentive.Shared.PresentMessageCenterFrom(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
         };
     }
 }
@@ -64,25 +63,6 @@ if (unreadMessageCount > 0)
 }
 ```
 
-### Unread Message Count Notification
-
-You can receive a callback when a new unread message comes in. You can use this callback to notify your customer, and display a badge letting them know how many unread messages are waiting for them. Because this listener could be called at any time, you should store the value returned from this method, and then perform any user interaction you desire at the appropriate time.
-```
-public partial class ViewController : UIViewController
-{
-    public override void ViewDidLoad()
-    {
-        base.ViewDidLoad();
-        
-        ...
-        
-        NSNotificationCenter.DefaultCenter.AddObserver(Constants.ApptentiveMessageCenterUnreadCountChangedNotification, (NSNotification obj) =>
-        {
-            UnreadMessagesTextView.Text = "Unread messages: " + Apptentive.Shared.UnreadMessageCount;
-        });
-    }
-}
-```
 
 ## Events
 
@@ -118,7 +98,7 @@ When the registration succeeds, your application delegate will have to pass the 
 ```
 public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
 {
-    Apptentive.Shared.SetPushNotificationIntegration(ApptentivePushProvider.Apptentive, deviceToken);
+    Apptentive.Shared.SetRemoteNotifcationDeviceToken(deviceToken);
 }
 ```
 
@@ -127,12 +107,7 @@ Your application delegate will also have to forward any push and local notificat
 ```
 public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
 {
-    Apptentive.Shared.DidReceiveRemoteNotification(userInfo, this.Window.RootViewController, completionHandler);
-}
-
-public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
-{
-    Apptentive.Shared.DidReceiveLocalNotification(notification, this.Window.RootViewController);
+    Apptentive.Shared.DidReceiveRemoteNotification(userInfo, completionHandler);
 }
 ```
 
