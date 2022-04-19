@@ -1,7 +1,7 @@
 ﻿using System;
 
 using UIKit;
-using ApptentiveSDK.iOS;
+using ApptentiveKit.iOS;
 
 namespace ApptentiveSample
 {
@@ -47,11 +47,13 @@ namespace ApptentiveSample
                         {
                             if (Source == DataViewControllerSource.Person)
                             {
-                                Apptentive.Shared.AddCustomPersonData(text, key);
+                                ApptentiveKit.iOS.Apptentive.Shared.AddCustomPersonDataString(text, key);
+                            
                             }
                             else
                             {
-                                Apptentive.Shared.AddCustomDeviceData(text, key);
+                                ApptentiveKit.iOS.Apptentive.Shared.AddCustomDeviceDataString(text, key);
+                            
                             }
                         } else {
                             shouldClearFields = false;
@@ -63,11 +65,12 @@ namespace ApptentiveSample
                         {
                             if (Source == DataViewControllerSource.Person)
                             {
-                                Apptentive.Shared.AddCustomPersonData(result, key);
+                                ApptentiveKit.iOS.Apptentive.Shared.AddCustomPersonDataNumber(result, key);
+                              
                             }
                             else
                             {
-                                Apptentive.Shared.AddCustomDeviceData(result, key);
+                                ApptentiveKit.iOS.Apptentive.Shared.AddCustomDeviceDataNumber(result, key);
                             }
                         } else {
                             shouldClearFields = false;
@@ -76,11 +79,13 @@ namespace ApptentiveSample
                     case 2:
                         if (Source == DataViewControllerSource.Person)
                         {
-                            Apptentive.Shared.AddCustomPersonData(booleanSwitch.On, key);
+                            ApptentiveKit.iOS.Apptentive.Shared.AddCustomPersonDataBool(booleanSwitch.On, key);
+                     
                         }
                         else
                         {
-                            Apptentive.Shared.AddCustomDeviceData(booleanSwitch.On, key);
+                            ApptentiveKit.iOS.Apptentive.Shared.AddCustomDeviceDataBool(booleanSwitch.On, key);
+                   
                         }
                         break;
                 }

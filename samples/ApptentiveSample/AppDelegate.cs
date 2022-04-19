@@ -1,6 +1,6 @@
 ﻿using Foundation;
 using UIKit;
-using ApptentiveSDK.iOS;
+using ApptentiveKit.iOS;
 using System;
 
 namespace ApptentiveSample
@@ -22,13 +22,12 @@ namespace ApptentiveSample
         {
             // Example of how to override UIAppearance on a View Controller basis
             this.Window.TintColor = UIColor.Red;
-            UIView.AppearanceWhenContainedIn(new System.Type[] { typeof(ApptentiveNavigationController) }).TintColor = UIColor.Blue;
+            UIView.AppearanceWhenContainedIn(new System.Type[] { typeof(ApptentiveNavigationController) }).TintColor = UIColor.White;
 
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-            var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
-            configuration.LogLevel = ApptentiveLogLevel.Verbose;
-            Apptentive.Register(configuration);
+            ApptentiveKit.iOS.Apptentive.Shared.RegisterWithKey("Your Apptentive Key", "Your Apptentive Signature", (registered) => Console.WriteLine("App Registered."));
+            ApptentiveKit.iOS.Apptentive.Shared.LogLevel = ApptentiveLogLevel.Verbose;
 
             var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
                                UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
@@ -73,7 +72,8 @@ namespace ApptentiveSample
 
         public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
-            Apptentive.Shared.SetPushNotificationIntegration(ApptentivePushProvider.Apptentive, deviceToken);
+            ApptentiveKit.iOS.Apptentive.Shared.SetRemoteNotifcationDeviceToken(deviceToken);
+
         }
 
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
@@ -83,13 +83,9 @@ namespace ApptentiveSample
 
         public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
-            Apptentive.Shared.DidReceiveRemoteNotification(userInfo, this.Window.RootViewController, completionHandler);
-        }
-
-        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
-        {
-            Apptentive.Shared.DidReceiveLocalNotification(notification, this.Window.RootViewController);
+            ApptentiveKit.iOS.Apptentive.Shared.DidReceiveRemoteNotification(userInfo, completionHandler);
         }
     }
-}
+   }
+
 

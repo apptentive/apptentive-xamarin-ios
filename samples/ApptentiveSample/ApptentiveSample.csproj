@@ -81,6 +81,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="NativeLibrary">
+      <HintPath>..\..\..\ApptentiveKit.iOS\ApptentiveKit.iOS\bin\Debug\NativeLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -92,7 +95,6 @@
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
-    <InterfaceDefinition Include="AuthenticationViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -109,16 +111,6 @@
     <Compile Include="DataViewController.designer.cs">
       <DependentUpon>DataViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="AuthenticationViewController.cs" />
-    <Compile Include="AuthenticationViewController.designer.cs">
-      <DependentUpon>AuthenticationViewController.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\source\Apptentive.iOS.csproj">
-      <Project>{2E12D3F8-5171-422B-AD47-C605D74D6372}</Project>
-      <Name>Apptentive.iOS</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

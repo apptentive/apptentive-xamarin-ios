@@ -1,0 +1,29 @@
+﻿<Properties StartupConfiguration="{768AB224-4045-40C9-A8FC-40328D21DA05}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ViewController.cs">
+    <Files>
+      <File FileName="AppDelegate.cs" Line="74" Column="10" />
+      <File FileName="ViewController.cs" Line="50" Column="1" />
+      <File FileName="ViewController.designer.cs" Line="37" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ApptentiveSample" expanded="True">
+            <Node name="ApptentiveKit.iOS" expanded="True" />
+            <Node name="ApptentiveSample" expanded="True">
+              <Node name="DataViewController.cs" expanded="True" />
+              <Node name="ViewController.cs" expanded="True" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
+  <MonoDevelop.Ide.ItemProperties.ApptentiveSample PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.38DD8A27-D95F-4680-B5AA-C5B12263074F" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

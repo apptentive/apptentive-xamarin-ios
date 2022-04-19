@@ -1,7 +1,7 @@
 ﻿using System;
 
 using UIKit;
-using ApptentiveSDK.iOS;
+using ApptentiveKit.iOS;
 using Foundation;
 
 namespace ApptentiveSample
@@ -10,60 +10,63 @@ namespace ApptentiveSample
     {
         protected ViewController(IntPtr handle) : base(handle)
         {
-            // Note: this .ctor should not contain any initialization logic.
+    
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
+            UnreadMessagesTextView.Text = "Unread messages: " + ApptentiveKit.iOS.Apptentive.Shared.UnreadMessageCount;
+            UnreadMessageCount.TouchUpInside += delegate {
 
-            EngageButton.TouchUpInside += delegate {
+                UpdateUnreadMessagesCount();
+	       };
+
+            EngageButton.TouchUpInside += delegate
+            {
                 var eventName = EventNameTextField.Text;
-                Apptentive.Shared.Engage(eventName, this, (engaged) => Console.WriteLine("Event engaged: " + engaged) );
+                Apptentive.Shared.Engage(eventName, this, (engaged) => Console.WriteLine("Event engaged: " + engaged));
             };
 
-            MessageCenterButton.TouchUpInside += delegate {
-                Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
+            MessageCenterButton.TouchUpInside += delegate
+            {
+                Apptentive.Shared.PresentMessageCenterFromViewController(this, (presented) => Console.WriteLine("Message center presented: " + presented));
+
             };
 
-            CanShowInteractionButton.TouchUpInside += delegate {
+            CanShowInteractionButton.TouchUpInside += delegate
+            {
                 var eventName = EventNameTextField.Text;
-                Apptentive.Shared.QueryCanShowInteraction(eventName, (canShow) => {
+                Apptentive.Shared.QueryCanShowInteractionForEvent(eventName, (canShow) =>
+                {
                     var alertController = UIAlertController.Create("Apptentive", canShow ? "Yes" : "No", UIAlertControllerStyle.Alert);
                     alertController.AddAction(UIAlertAction.Create("Close", UIAlertActionStyle.Cancel, (obj) => alertController.DismissViewController(true, null)));
                     PresentViewController(alertController, true, null);
                 });
             };
-
-            UpdateUnreadMessagesCount();
-            NSNotificationCenter.DefaultCenter.AddObserver(Constants.ApptentiveMessageCenterUnreadCountChangedNotification, (NSNotification obj) => {
-                UpdateUnreadMessagesCount();
-            });
         }
+
+
+
 
         private void UpdateUnreadMessagesCount()
         {
-            UnreadMessagesTextView.Text = "Unread messages: " + Apptentive.Shared.UnreadMessageCount;
+            UnreadMessagesTextView.Text = "Unread messages: " + ApptentiveKit.iOS.Apptentive.Shared.UnreadMessageCount;
+ 
         }
 
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
-            // Release any cached data, images, etc that aren't in use.
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, Foundation.NSObject sender)
         {
+            UpdateUnreadMessagesCount();
             base.PrepareForSegue(segue, sender);
 
-            if (segue.Identifier == "Authentication")
-            {
-                AuthenticationViewController VC = (AuthenticationViewController)segue.DestinationViewController;
-
-                // do stuff
-            }
-            else if (segue.Identifier == "PersonData")
+             if (segue.Identifier == "PersonData")
             {
                 DataViewController VC = (DataViewController)segue.DestinationViewController;
 
