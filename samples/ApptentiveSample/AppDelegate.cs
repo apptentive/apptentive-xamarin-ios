@@ -3,7 +3,6 @@ using UIKit;
 using ApptentiveSDK.iOS;
 using System;
 
-
 namespace ApptentiveSample
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the
