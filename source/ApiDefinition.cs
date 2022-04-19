@@ -73,7 +73,7 @@ namespace ApptentiveSDK.iOS
 
 		// @property (nonatomic) NSInteger unreadMessageCount;
 		[Export("unreadMessageCount")]
-		nint UnreadMessageCount { get; set; }
+		nint UnreadMessageCount { get; }
 
 		// -(void)setRemoteNotifcationDeviceToken:(NSData * _Nonnull)tokenData;
 		[Export("setRemoteNotifcationDeviceToken:")]
