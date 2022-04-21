@@ -33,9 +33,6 @@ namespace ApptentiveSample
 		UIKit.UIButton MessageCenterButton { get; set; }
 
 		[Outlet]
-		UIKit.UIButton unreadMessageCount { get; set; }
-
-		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIKit.UILabel UnreadMessagesTextView { get; set; }
 
@@ -45,11 +42,6 @@ namespace ApptentiveSample
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (unreadMessageCount != null) {
-				unreadMessageCount.Dispose ();
-				unreadMessageCount = null;
-			}
-
 			if (CanShowInteractionButton != null) {
 				CanShowInteractionButton.Dispose ();
 				CanShowInteractionButton = null;
