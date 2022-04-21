@@ -27,17 +27,17 @@ namespace ApptentiveSample
 
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-            Apptentive.Shared.Register("Your Apptentive App Key", "Your Apptentive App Signature", (registered) => System.Console.WriteLine("Registered"));
+            Apptentive.Shared.Register("IOS-XAMARIN-IOS-8f46ccae63c0", "1bb31ba70317f17edcad284047483dfa", (registered) => System.Console.WriteLine("Registered"));
             Apptentive.Shared.LogLevel = ApptentiveLogLevel.Verbose;
 
-            UNUserNotificationCenter.Current.RequestAuthorization((UNAuthorizationOptions.Sound | UNAuthorizationOptions.Alert), (Boolean success, NSError error) =>
+            UNUserNotificationCenter.Current.RequestAuthorization((UNAuthorizationOptions.Sound | UNAuthorizationOptions.Alert), (Boolean Success, NSError Error) =>
             {
-                if (success) {
+                if (Success) {
                     Console.WriteLine("Successfully got notification permission.");
                 }
-                else
+                else if (Error != null)
                 {
-                    Console.WriteLine("Failed to get notification permission: " + error.LocalizedDescription);
+                    Console.WriteLine("Failed to get notification permission: " + Error.LocalizedDescription);
                 }
             });
 
