@@ -110,9 +110,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\source\Apptentive.iOS.csproj">
-      <Project>{2E12D3F8-5171-422B-AD47-C605D74D6372}</Project>
-      <Name>Apptentive.iOS</Name>
+    <ProjectReference Include="..\..\source\ApptentiveKit.iOS.csproj">
+      <Name>ApptentiveKit.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

@@ -4,12 +4,15 @@ using ObjCRuntime;
 using UIKit;
 using UserNotifications;
 
-namespace ApptentiveSDK.iOS
+namespace ApptentiveKit.iOS
 {
 	// @interface ApptentiveNavigationController : UINavigationController
 	[BaseType(typeof(UINavigationController), Name = "_TtC13ApptentiveKit30ApptentiveNavigationController")]
 	interface ApptentiveNavigationController
 	{
+		// @property (readonly, nonatomic) UIStatusBarStyle preferredStatusBarStyle;
+		[Export("preferredStatusBarStyle")]
+		UIStatusBarStyle PreferredStatusBarStyle { get; }
 	}
 
 	// @interface Apptentive : NSObject

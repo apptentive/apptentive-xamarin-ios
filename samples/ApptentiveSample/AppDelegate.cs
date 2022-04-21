@@ -1,7 +1,7 @@
 ﻿using Foundation;
 using UIKit;
-using ApptentiveSDK.iOS;
 using System;
+using ApptentiveKit.iOS;
 
 namespace ApptentiveSample
 {

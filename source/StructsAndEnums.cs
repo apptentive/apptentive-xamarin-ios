@@ -1,7 +1,7 @@
 using System;
 using ObjCRuntime;
 
-namespace ApptentiveSDK.iOS
+namespace ApptentiveKit.iOS
 {
     [Native]
     public enum ApptentiveLogLevel : ulong

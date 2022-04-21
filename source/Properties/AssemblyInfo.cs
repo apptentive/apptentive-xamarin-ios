@@ -11,7 +11,7 @@ using Foundation;
 
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
-[assembly: AssemblyTitle("Apptentive.iOS")]
+[assembly: AssemblyTitle("ApptentiveKit.iOS")]
 [assembly: AssemblyDescription("ApptentiveKit for Xamarin.iOS")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Apptentive, Inc.")]
