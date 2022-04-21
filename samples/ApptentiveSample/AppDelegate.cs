@@ -27,7 +27,10 @@ namespace ApptentiveSample
 
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-            Apptentive.Shared.Register("IOS-XAMARIN-IOS-8f46ccae63c0", "1bb31ba70317f17edcad284047483dfa", (registered) => System.Console.WriteLine("Registered"));
+            var config = new ApptentiveKit.iOS.ApptentiveConfiguration("IOS-OPERATOR-7ee0ab6dcbae", "b6ce9ec3ceae13cacebd2e85ff235b2e");
+            config.Register();
+
+            //Apptentive.Shared.Register("Your Apptentive App Key", "Your Apptentive App Signature", (registered) => System.Console.WriteLine("Registered"));
             Apptentive.Shared.LogLevel = ApptentiveLogLevel.Verbose;
 
             UNUserNotificationCenter.Current.RequestAuthorization((UNAuthorizationOptions.Sound | UNAuthorizationOptions.Alert), (Boolean Success, NSError Error) =>
