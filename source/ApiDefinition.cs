@@ -18,7 +18,7 @@ namespace ApptentiveKit.iOS
 	// @interface Apptentive : NSObject
 	[BaseType (typeof(NSObject), Name = "_TtC13ApptentiveKit10Apptentive")]
 	[DisableDefaultCtor]
-	interface Apptentive
+	interface Apptentive : IUNUserNotificationCenterDelegate
 	{
 		// @property (readonly, nonatomic, strong, class) Apptentive * _Nonnull shared;
 		[Static]
