@@ -4,7 +4,7 @@
 Register Apptentive in your Application class.
 
 ```
-using ApptentiveSDK.iOS;
+using ApptentiveKit.iOS;
 
 [Register("AppDelegate")]
 public class AppDelegate : UIApplicationDelegate
@@ -14,13 +14,25 @@ public class AppDelegate : UIApplicationDelegate
         ...
     
         var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
-        Apptentive.Register(configuration);
+        Apptentive.Shared.Register(configuration, (registered) => System.Console.WriteLine("Registered"));
 
         return true;
     }
 }
 ```
 Make sure you use the Apptentive App Key and Signature for the iOS app you created in the Apptentive console. Sharing these keys between two apps, or using keys from the wrong platform is not supported, and will lead to incorrect behavior. You can find them [here](https://be.apptentive.com/apps/current/settings/api).
+
+## Events
+
+Events record user interaction. You can use them to determine if and when an Interaction will be shown to your customer. You will use these Events later to target Interactions, and to determine whether an Interaction can be shown. You trigger an Event with the `Engage()` method. This will record the Event, and then check to see if any Interactions targeted to that Event are allowed to be displayed, based on the logic you set up in the Apptentive Dashboard.
+  
+```
+var engageButton = FindViewById<Button>(...);
+engageButton.Click += delegate
+{
+    Apptentive.Shared.Engage("my_event", this, (engaged) => Console.WriteLine("Event engaged: " + engaged) ); // assuming 'this' is a ViewController
+};
+```
 
 ## Message Center
 
@@ -86,30 +98,34 @@ public partial class ViewController : UIViewController
 }
 ```
 
-## Events
-
-Events record user interaction. You can use them to determine if and when an Interaction will be shown to your customer. You will use these Events later to target Interactions, and to determine whether an Interaction can be shown. You trigger an Event with the `Engage()` method. This will record the Event, and then check to see if any Interactions targeted to that Event are allowed to be displayed, based on the logic you set up in the Apptentive Dashboard.
-  
-```
-var engageButton = FindViewById<Button>(...);
-engageButton.Click += delegate
-{
-    Apptentive.Shared.Engage("my_event", this, (engaged) => Console.WriteLine("Event engaged: " + engaged) ); // assuming 'this' is a ViewController
-};
-```
-
-## Push Notifications
+### Push Notifications
 
 Apptentive can send push notifications to your app when you reply to your customers. Your replies are more likely to be seen by your customer when you do this. To set up push notifications, you will need to supply your push credentials on the Integrations page of your Apptentive dashboard, send us the ID that your push provider uses to identify the device, and call into our SDK when a user opens a push notification.
 
 To use Apptentive push, you will need to add code to your application delegate, configure your app for push in the developer portal, and supply your push certificate and private key in your Apptentive dashboard.
 
-### Configuring Your Application Delegate for Push
-
 Your app will have to register for remote notifications (we recommend registering for alert and sound notifications) as follows:
 
 ```
-var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert | UIUserNotificationType.Sound, new NSSet());
+
+using UserNotifications;
+
+...
+
+UNUserNotificationCenter.Current.RequestAuthorization((UNAuthorizationOptions.Sound | UNAuthorizationOptions.Alert), (Boolean Success, NSError Error) =>
+{
+    if (Success) {
+        Console.WriteLine("Successfully got notification permission.");
+    }
+    else if (Error != null)
+    {
+        Console.WriteLine("Failed to get notification permission: " + Error.LocalizedDescription);
+    }
+});
+
+UIApplication.SharedApplication.RegisterForRemoteNotifications();
+
+UNUserNotificationCenter.Current.Delegate = Apptentive.Shared;
 
 UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
 UIApplication.SharedApplication.RegisterForRemoteNotifications();

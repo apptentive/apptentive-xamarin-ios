@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using UIKit;
+using UserNotifications;
 using System;
 using ApptentiveKit.iOS;
 
@@ -26,16 +27,24 @@ namespace ApptentiveSample
 
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-            Apptentive.Shared.Register("Your Apptentive App Key", "Your Apptentive App Signature", (registered) => System.Console.WriteLine("Registered"));
-            Apptentive.Shared.LogLevel = ApptentiveLogLevel.Verbose;
-     
+            ApptentiveConfiguration configuration = new ApptentiveConfiguration("Your Apptentive App Key", "Your Apptentive App Signature");
+            configuration.LogLevel = ApptentiveLogLevel.Verbose;
+            Apptentive.Shared.Register(configuration, (registered) => System.Console.WriteLine("Registered"));
 
-            var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
-                               UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
-                               new NSSet());
+            UNUserNotificationCenter.Current.RequestAuthorization((UNAuthorizationOptions.Sound | UNAuthorizationOptions.Alert), (Boolean Success, NSError Error) =>
+            {
+                if (Success) {
+                    Console.WriteLine("Successfully got notification permission.");
+                }
+                else if (Error != null)
+                {
+                    Console.WriteLine("Failed to get notification permission: " + Error.LocalizedDescription);
+                }
+            });
 
-            UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
             UIApplication.SharedApplication.RegisterForRemoteNotifications();
+
+            UNUserNotificationCenter.Current.Delegate = Apptentive.Shared;
 
             return true;
         }
