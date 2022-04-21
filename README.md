@@ -64,6 +64,27 @@ if (unreadMessageCount > 0)
 }
 ```
 
+### Unread Message Count Notification
+
+You can receive a callback when a new unread message comes in. You can use this callback to notify your customer, and display a badge letting them know how many unread messages are waiting for them. Because this listener could be called at any time, you should store the value returned from this method, and then perform any user interaction you desire at the appropriate time.
+```
+public partial class ViewController : UIViewController
+{
+    private IDisposable Observer = null;
+  
+    public override void ViewDidLoad()
+    {
+        base.ViewDidLoad();
+        
+        ...
+        
+        Observer = Apptentive.Shared.AddObserver("unreadMessageCount", Foundation.NSKeyValueObservingOptions.New, (NSObservedChange obj) =>
+        {
+          UnreadMessagesTextView.Text = "Unread messages: " + Apptentive.Shared.UnreadMessageCount;
+        });
+    }
+}
+```
 
 ## Events
 

@@ -142,7 +142,7 @@ extension ApptentiveKit.MessageCenterViewModel {
   }
 }
 extension ApptentiveKit.Apptentive : UserNotifications.UNUserNotificationCenterDelegate {
-  public func setRemoteNotificationDeviceToken(_ tokenData: Foundation.Data)
+  @objc dynamic public func setRemoteNotificationDeviceToken(_ tokenData: Foundation.Data)
   @objc dynamic public func didReceiveRemoteNotification(_ userInfo: [Swift.AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIKit.UIBackgroundFetchResult) -> Swift.Void) -> Swift.Bool
   @objc dynamic public func didReceveUserNotificationResponse(_ response: UserNotifications.UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void) -> Swift.Bool
   @objc(willPresentNotification:withCompletionHandler:) dynamic public func willPresent(_ notification: UserNotifications.UNNotification, withCompletionHandler completionHandler: @escaping (UserNotifications.UNNotificationPresentationOptions) -> Swift.Void) -> Swift.Bool
@@ -243,13 +243,13 @@ public enum LogLevel : Swift.Int, Swift.Comparable {
   @objc dynamic public var unreadMessageCount: Swift.Int {
     get
   }
-  public var distributionName: Swift.String? {
-    get
-    set
+  @objc public var distributionName: Swift.String? {
+    @objc get
+    @objc set
   }
-  public var distributionVersion: Swift.String? {
-    get
-    set
+  @objc public var distributionVersion: Swift.String? {
+    @objc get
+    @objc set
   }
   public enum UITheme {
     case apptentive
@@ -525,8 +525,10 @@ extension ApptentiveKit.SurveyViewModel {
   }
 }
 extension ApptentiveKit.Apptentive {
-  @available(swift, deprecated: 1.0, message: "Use the 'register(with:completion:' method on the 'shared' instance instead.")
+  @available(*, deprecated, message: "Use the 'register(with:completion:)' method on the 'shared' instance instead.")
   @objc(registerWithConfiguration:) dynamic public class func register(with configuration: ApptentiveKit.ApptentiveConfiguration)
+  @available(swift, deprecated: 1.0, message: "Use the 'register(with:completion:)' method instead.")
+  @objc dynamic public func register(withKey key: Swift.String, signature: Swift.String, completion: ((Swift.Bool) -> Swift.Void)? = nil)
   @available(*, deprecated, message: "Use the 'shared' static property instead.")
   @objc dynamic public class func sharedConnection() -> ApptentiveKit.Apptentive
   @available(*, deprecated, message: "This property is ignored. SKStoreReviewController will be used for all ratings.")
@@ -669,7 +671,8 @@ public typealias ApptentiveInteractionCallback = (Swift.String, [Swift.AnyHashab
     get
   }
 }
-@objc public class ApptentiveConfiguration : ObjectiveC.NSObject {
+@objc @available(*, deprecated, message: "Set the properties from this class on the 'Apptentive' object directly.")
+public class ApptentiveConfiguration : ObjectiveC.NSObject {
   @objc final public let apptentiveKey: Swift.String
   @objc final public let apptentiveSignature: Swift.String
   @available(swift, deprecated: 1.0, message: "Set the 'logLevel' property on 'ApptentiveLogger' or one of it's static log properties.")
@@ -678,7 +681,9 @@ public typealias ApptentiveInteractionCallback = (Swift.String, [Swift.AnyHashab
   @objc public var shouldSanitizeLogMessages: Swift.Bool
   @available(*, deprecated, message: "This property is ignored. Use the designated initializer for 'Apptentive' to set this.")
   @objc public var baseURL: Foundation.URL?
+  @available(*, deprecated, message: "This property may take effect after the initial app information has been sent to the API.")
   @objc public var distributionName: Swift.String?
+  @available(*, deprecated, message: "This property may take effect after the initial app information has been sent to the API.")
   @objc public var distributionVersion: Swift.String?
   @available(*, deprecated, message: "This property is ignored. An 'SKStoreReviewController' will be used for all ratings.")
   @objc public var appID: Swift.String?
