@@ -1,13 +1,15 @@
 ﻿using System;
 
 using UIKit;
-using ApptentiveSDK.iOS;
 using Foundation;
+using ApptentiveKit.iOS;
 
 namespace ApptentiveSample
 {
     public partial class ViewController : UIViewController
     {
+        private IDisposable Observer = null;
+
         protected ViewController(IntPtr handle) : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
@@ -17,10 +19,6 @@ namespace ApptentiveSample
         {
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
-
-            unreadMessageCount.TouchUpInside += delegate {
-                UpdateUnreadMessagesCount();
-            };
 
             EngageButton.TouchUpInside += delegate {
                 var eventName = EventNameTextField.Text;
@@ -39,6 +37,11 @@ namespace ApptentiveSample
                     PresentViewController(alertController, true, null);
                 });
             };
+
+            Observer = Apptentive.Shared.AddObserver("unreadMessageCount", Foundation.NSKeyValueObservingOptions.New, (NSObservedChange obj) =>
+            {
+                UpdateUnreadMessagesCount();
+            });
         }
 
         private void UpdateUnreadMessagesCount()
