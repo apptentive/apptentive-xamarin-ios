@@ -20,38 +20,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1643">
-                                <rect key="frame" x="74" y="226" width="227" height="215"/>
+                                <rect key="frame" x="111.5" y="241.5" width="152" height="184"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Event name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1653">
-                                        <rect key="frame" x="62" y="0.0" width="103.5" height="34"/>
+                                        <rect key="frame" x="24.5" y="0.0" width="103.5" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1647">
-                                        <rect key="frame" x="87.5" y="34" width="52" height="30"/>
+                                        <rect key="frame" x="50" y="34" width="52" height="30"/>
                                         <state key="normal" title="Engage">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6E8-L4-QQf">
-                                        <rect key="frame" x="0.0" y="64" width="227" height="31"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Update Unread Message Count"/>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1651">
-                                        <rect key="frame" x="57.5" y="95" width="112" height="30"/>
+                                        <rect key="frame" x="20" y="64" width="112" height="30"/>
                                         <state key="normal" title="Message Center">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1649">
-                                        <rect key="frame" x="37.5" y="125" width="152" height="30"/>
+                                        <rect key="frame" x="0.0" y="94" width="152" height="30"/>
                                         <state key="normal" title="Can show interaction?">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1650">
-                                        <rect key="frame" x="71.5" y="155" width="84" height="30"/>
+                                        <rect key="frame" x="34" y="124" width="84" height="30"/>
                                         <state key="normal" title="Person Data">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -60,7 +55,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1657">
-                                        <rect key="frame" x="72" y="185" width="83" height="30"/>
+                                        <rect key="frame" x="34.5" y="154" width="83" height="30"/>
                                         <state key="normal" title="Device Data">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -94,7 +89,6 @@
                         <outlet property="MessageCenterButton" destination="1651" id="name-outlet-1651"/>
                         <outlet property="UnreadMessagesTextView" destination="3642" id="name-outlet-3642"/>
                         <outlet property="UserDataButton" destination="1650" id="name-outlet-1650"/>
-                        <outlet property="unreadMessageCount" destination="6E8-L4-QQf" id="7xn-Ne-tYl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
