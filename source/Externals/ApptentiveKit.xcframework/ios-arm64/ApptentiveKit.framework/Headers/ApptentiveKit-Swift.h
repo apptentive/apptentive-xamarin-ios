@@ -234,7 +234,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Apptentive *
 /// The string used by the mParticle integration to identify the current user.
 @property (nonatomic, copy) NSString * _Nullable mParticleID;
 /// The number of unread messages in message center.
-@property (nonatomic, readonly) NSInteger unreadMessageCount;
+@property (nonatomic) NSInteger unreadMessageCount;
 /// The name of the distribution method for this SDK instance (not for app use).
 /// This property is used to track the relative popularity of various methods of
 /// integrating this SDK, for example “React Native” or “CocoaPods”.
@@ -261,7 +261,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Apptentive *
 ///
 /// \param mediaType The media type for the file.
 ///
-- (void)sendAttachmentFile:(NSData * _Nonnull)fileData withMimeType:(NSString * _Nonnull)mediaType;
+- (void)sendAttachmentData:(NSData * _Nonnull)fileData mimeType:(NSString * _Nonnull)mediaType;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -274,9 +274,10 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Apptentive *
 
 @interface Apptentive (SWIFT_EXTENSION(ApptentiveKit)) <UNUserNotificationCenterDelegate>
 /// Sets the remote notification device token to the specified value.
-/// \param tokenData The remote notification device token passed into application(_:didRegisterForRemoteNotificationsWithDeviceToken:).
+/// \param tokenData The remote notification device token passed into <code>application(_:didRegisterForRemoteNotificationsWithDeviceToken:)</code>.
 ///
 - (void)setRemoteNotificationDeviceToken:(NSData * _Nonnull)tokenData;
+- (void)setRemoteNotifcationDeviceToken:(NSData * _Nonnull)tokenData SWIFT_DEPRECATED_MSG("Use the (correctly-spelled) 'setRemoteNotificationDeviceToken(_:)' method instead.");
 /// Should be called in response to the application delegate receiving a remote notification.
 /// note:
 /// If the return value is <code>false</code>, the caller is responsible for calling the fetch completion handler.
@@ -313,7 +314,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Apptentive *
 ///
 /// returns:
 /// <code>true</code> if the notification was handled by the Apptentive SDK, <code>false</code> if not.
-- (BOOL)willPresentNotification:(UNNotification * _Nonnull)notification withCompletionHandler:(void (^ _Nonnull)(UNNotificationPresentationOptions))completionHandler SWIFT_WARN_UNUSED_RESULT;
+- (BOOL)willPresent:(UNNotification * _Nonnull)notification withCompletionHandler:(void (^ _Nonnull)(UNNotificationPresentationOptions))completionHandler SWIFT_WARN_UNUSED_RESULT;
 /// Passes the arguments received by the delegate method to the appropriate Apptentive method.
 /// \param center The user notification center.
 ///
@@ -346,7 +347,7 @@ enum ApptentiveLogLevel : NSUInteger;
 
 @interface Apptentive (SWIFT_EXTENSION(ApptentiveKit))
 + (void)registerWithConfiguration:(ApptentiveConfiguration * _Nonnull)configuration SWIFT_DEPRECATED_MSG("Use the 'register(with:completion:)' method on the 'shared' instance instead.");
-- (void)registerWithKey:(NSString * _Nonnull)key signature:(NSString * _Nonnull)signature completion:(void (^ _Nullable)(BOOL))completion;
+- (void)registerWithConfiguration:(ApptentiveConfiguration * _Nonnull)configuration completion:(void (^ _Nullable)(BOOL))completion;
 + (Apptentive * _Nonnull)sharedConnection SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_MSG("Use the 'shared' static property instead.");
 @property (nonatomic, copy) NSString * _Nullable appID SWIFT_DEPRECATED_MSG("This property is ignored. SKStoreReviewController will be used for all ratings.");
 @property (nonatomic) BOOL showInfoButton SWIFT_DEPRECATED_MSG("This property is ignored. The info button no longer exists.");
@@ -365,7 +366,6 @@ enum ApptentiveLogLevel : NSUInteger;
 + (NSDictionary * _Nonnull)extendedDataCommerceWithTransactionID:(NSString * _Nullable)transactionID affiliation:(NSString * _Nullable)affiliation revenue:(NSNumber * _Nullable)revenue shipping:(NSNumber * _Nullable)shipping tax:(NSNumber * _Nullable)tax currency:(NSString * _Nullable)currency commerceItems:(NSArray<NSDictionary *> * _Nullable)commerceItems SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_MSG("Extended event data are no longer supported.");
 + (NSDictionary * _Nonnull)extendedDataCommerceItemWithItemID:(NSString * _Nullable)itemID name:(NSString * _Nullable)name category:(NSString * _Nullable)category price:(NSNumber * _Nullable)price quantity:(NSNumber * _Nullable)quantity currency:(NSString * _Nullable)currency SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_MSG("Extended event data are no longer supported.");
 - (void)queryCanShowMessageCenterWithCompletion:(void (^ _Nonnull)(BOOL))completion SWIFT_DEPRECATED_MSG("This feature is not implemented and will always result in false.");
-- (void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController;
 - (void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
 - (void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController withCustomData:(NSDictionary * _Nullable)customData;
 - (void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController withCustomData:(NSDictionary * _Nullable)customData completion:(void (^ _Nullable)(BOOL))completion;
@@ -423,7 +423,7 @@ typedef SWIFT_ENUM(NSInteger, ApptentiveAuthenticationFailureReason, open) {
 
 @class NSURL;
 
-SWIFT_CLASS("_TtC13ApptentiveKit23ApptentiveConfiguration") SWIFT_DEPRECATED_MSG("Set the properties from this class on the 'Apptentive' object directly.")
+SWIFT_CLASS("_TtC13ApptentiveKit23ApptentiveConfiguration")
 @interface ApptentiveConfiguration : NSObject
 /// The Apptentive App Key, obtained from your Apptentive dashboard.
 @property (nonatomic, readonly, copy) NSString * _Nonnull apptentiveKey;
@@ -432,19 +432,20 @@ SWIFT_CLASS("_TtC13ApptentiveKit23ApptentiveConfiguration") SWIFT_DEPRECATED_MSG
 /// The granularity of log messages to show.
 @property (nonatomic) enum ApptentiveLogLevel logLevel;
 /// If set, redacts potentially-sensitive information such as user data and credentials from logging.
-@property (nonatomic) BOOL shouldSanitizeLogMessages SWIFT_DEPRECATED_MSG("This property is ignored. Log messages will be redacted unless the app has a debugger attached.");
+@property (nonatomic) BOOL shouldSanitizeLogMessages;
 /// The server URL to use for API calls. Should only be used for testing.
 @property (nonatomic, copy) NSURL * _Nullable baseURL SWIFT_DEPRECATED_MSG("This property is ignored. Use the designated initializer for 'Apptentive' to set this.");
 /// The name of the distribution that includes the Apptentive SDK. For example “Cordova”.
-@property (nonatomic, copy) NSString * _Nullable distributionName SWIFT_DEPRECATED_MSG("This property may take effect after the initial app information has been sent to the API.");
+@property (nonatomic, copy) NSString * _Nullable distributionName;
 /// The version of the distribution that includes the Apptentive SDK.
-@property (nonatomic, copy) NSString * _Nullable distributionVersion SWIFT_DEPRECATED_MSG("This property may take effect after the initial app information has been sent to the API.");
+@property (nonatomic, copy) NSString * _Nullable distributionVersion;
 /// The iTunes store app ID of the app (used for Apptentive rating prompt).
 @property (nonatomic, copy) NSString * _Nullable appID SWIFT_DEPRECATED_MSG("This property is ignored. An 'SKStoreReviewController' will be used for all ratings.");
 /// If set, shows a button in Surveys and Message Center that presents information about Apptentive including a link to our privacy policy.
 @property (nonatomic) BOOL showInfoButton SWIFT_DEPRECATED_MSG("This property is ignored. The info button no longer exists.");
 /// If set, will show a link to terms and conditions in the bottom bar in Surveys.
-@property (nonatomic, strong) TermsAndConditions * _Nullable surveyTermsAndConditions SWIFT_DEPRECATED_MSG("This feature is currently not implemented.");
+@property (nonatomic, strong) TermsAndConditions * _Nullable surveyTermsAndConditions SWIFT_DEPRECATED_MSG("This property is ignored. Configure survey terms and conditions in the Apptentive Dashboard.");
+- (nullable instancetype)initWithApptentiveKey:(NSString * _Nonnull)apptentiveKey apptentiveSignature:(NSString * _Nonnull)apptentiveSignature OBJC_DESIGNATED_INITIALIZER;
 /// Returns an instance of the <code>ApptentiveConfiguration</code> class initialized with the specified parameters.
 /// \param key The Apptentive App Key, obtained from your Apptentive dashboard.
 ///
