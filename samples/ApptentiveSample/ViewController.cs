@@ -1,13 +1,15 @@
 ﻿using System;
 
 using UIKit;
-using ApptentiveSDK.iOS;
 using Foundation;
+using ApptentiveKit.iOS;
 
 namespace ApptentiveSample
 {
     public partial class ViewController : UIViewController
     {
+        private IDisposable Observer = null;
+
         protected ViewController(IntPtr handle) : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
@@ -36,8 +38,8 @@ namespace ApptentiveSample
                 });
             };
 
-            UpdateUnreadMessagesCount();
-            NSNotificationCenter.DefaultCenter.AddObserver(Constants.ApptentiveMessageCenterUnreadCountChangedNotification, (NSNotification obj) => {
+            Observer = Apptentive.Shared.AddObserver("unreadMessageCount", Foundation.NSKeyValueObservingOptions.New, (NSObservedChange obj) =>
+            {
                 UpdateUnreadMessagesCount();
             });
         }
@@ -57,13 +59,7 @@ namespace ApptentiveSample
         {
             base.PrepareForSegue(segue, sender);
 
-            if (segue.Identifier == "Authentication")
-            {
-                AuthenticationViewController VC = (AuthenticationViewController)segue.DestinationViewController;
-
-                // do stuff
-            }
-            else if (segue.Identifier == "PersonData")
+            if (segue.Identifier == "PersonData")
             {
                 DataViewController VC = (DataViewController)segue.DestinationViewController;
 
