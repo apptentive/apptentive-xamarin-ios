@@ -4,7 +4,7 @@
 Register Apptentive in your Application class.
 
 ```
-using ApptentiveSDK.iOS;
+using ApptentiveKit.iOS;
 
 [Register("AppDelegate")]
 public class AppDelegate : UIApplicationDelegate
@@ -14,7 +14,7 @@ public class AppDelegate : UIApplicationDelegate
         ...
     
         var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
-        Apptentive.Register(configuration);
+        Apptentive.Shared.Register(configuration, (registered) => System.Console.WriteLine("Registered"));
 
         return true;
     }
