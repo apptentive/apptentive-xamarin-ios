@@ -7,15 +7,15 @@
 	<key>CFBundleName</key>
 	<string>ApptentiveSample</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.2.3</string>
+	<string>6.0.0</string>
 	<key>CFBundleVersion</key>
-	<integer>5</integer>
+	<integer>1</integer>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
 	<string>11.0</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>I need this!</string>
+	<string>This enables the Save Image feature when sharing attachments.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
