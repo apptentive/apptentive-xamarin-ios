@@ -143,9 +143,11 @@ extension ApptentiveKit.MessageCenterViewModel {
 }
 extension ApptentiveKit.Apptentive : UserNotifications.UNUserNotificationCenterDelegate {
   @objc dynamic public func setRemoteNotificationDeviceToken(_ tokenData: Foundation.Data)
+  @available(*, deprecated, message: "Use the (correctly-spelled) 'setRemoteNotificationDeviceToken(_:)' method instead.")
+  @objc dynamic public func setRemoteNotifcationDeviceToken(_ tokenData: Foundation.Data)
   @objc dynamic public func didReceiveRemoteNotification(_ userInfo: [Swift.AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIKit.UIBackgroundFetchResult) -> Swift.Void) -> Swift.Bool
   @objc dynamic public func didReceveUserNotificationResponse(_ response: UserNotifications.UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void) -> Swift.Bool
-  @objc(willPresentNotification:withCompletionHandler:) dynamic public func willPresent(_ notification: UserNotifications.UNNotification, withCompletionHandler completionHandler: @escaping (UserNotifications.UNNotificationPresentationOptions) -> Swift.Void) -> Swift.Bool
+  @objc dynamic public func willPresent(_ notification: UserNotifications.UNNotification, withCompletionHandler completionHandler: @escaping (UserNotifications.UNNotificationPresentationOptions) -> Swift.Void) -> Swift.Bool
   @objc dynamic public func userNotificationCenter(_ center: UserNotifications.UNUserNotificationCenter, willPresent notification: UserNotifications.UNNotification, withCompletionHandler completionHandler: @escaping (UserNotifications.UNNotificationPresentationOptions) -> Swift.Void)
   @objc dynamic public func userNotificationCenter(_ center: UserNotifications.UNUserNotificationCenter, didReceive response: UserNotifications.UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void)
 }
@@ -185,6 +187,7 @@ extension ApptentiveKit.SurveyViewModel {
   }
 }
 public struct ApptentiveLogger {
+  public static var shouldHideSensitiveLogs: Swift.Bool
   public var logLevel: ApptentiveKit.LogLevel
 }
 extension ApptentiveKit.ApptentiveLogger {
@@ -240,9 +243,7 @@ public enum LogLevel : Swift.Int, Swift.Comparable {
     get
     set
   }
-  @objc dynamic public var unreadMessageCount: Swift.Int {
-    get
-  }
+  @objc dynamic public var unreadMessageCount: Swift.Int
   @objc public var distributionName: Swift.String? {
     @objc get
     @objc set
@@ -273,7 +274,7 @@ public enum LogLevel : Swift.Int, Swift.Comparable {
   public func presentMessageCenter(from viewController: UIKit.UIViewController?, with customData: ApptentiveKit.CustomData?, completion: ((Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)? = nil)
   @objc(sendAttachmentText:) public func sendAttachment(_ text: Swift.String)
   @objc(sendAttachmentImage:) public func sendAttachment(_ image: UIKit.UIImage)
-  @objc(sendAttachmentFile:withMimeType:) public func sendAttachment(_ fileData: Foundation.Data, mediaType: Swift.String)
+  @objc(sendAttachmentData:mimeType:) public func sendAttachment(_ fileData: Foundation.Data, mediaType: Swift.String)
   public func canShowInteraction(event: ApptentiveKit.Event, completion: ((Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)? = nil)
   convenience public init(apiBaseURL: Foundation.URL)
   @objc deinit
@@ -390,6 +391,9 @@ public protocol MessageCenterViewModelDelegate : AnyObject {
       get
     }
   }
+  public var oldestUnreadMessage: Foundation.IndexPath? {
+    get
+  }
   public func commitProfileEdits()
   public func cancelProfileEdits()
   public func launch()
@@ -484,7 +488,8 @@ open class InteractionPresenter {
   @objc deinit
 }
 public enum InteractionPresenterError : Swift.Error {
-  case notImplemented(Swift.String)
+  case notImplemented(Swift.String, Swift.String)
+  case decodingFailed(Swift.String, Swift.String)
   case noPresentingViewController
 }
 @_hasMissingDesignatedInitializers public class EnjoymentDialogViewModel : ApptentiveKit.AlertViewModel {
@@ -527,8 +532,8 @@ extension ApptentiveKit.SurveyViewModel {
 extension ApptentiveKit.Apptentive {
   @available(*, deprecated, message: "Use the 'register(with:completion:)' method on the 'shared' instance instead.")
   @objc(registerWithConfiguration:) dynamic public class func register(with configuration: ApptentiveKit.ApptentiveConfiguration)
-  @available(swift, deprecated: 1.0, message: "Use the 'register(with:completion:)' method instead.")
-  @objc dynamic public func register(withKey key: Swift.String, signature: Swift.String, completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  @available(swift, deprecated: 1.0, message: "Use the 'register(with:completion:) method that takes an 'AppCredentials' argument.")
+  @objc(registerWithConfiguration:completion:) dynamic public func register(with configuration: ApptentiveKit.ApptentiveConfiguration, completion: ((Swift.Bool) -> Swift.Void)? = nil)
   @available(*, deprecated, message: "Use the 'shared' static property instead.")
   @objc dynamic public class func sharedConnection() -> ApptentiveKit.Apptentive
   @available(*, deprecated, message: "This property is ignored. SKStoreReviewController will be used for all ratings.")
@@ -576,7 +581,6 @@ extension ApptentiveKit.Apptentive {
   @objc(extendedDataCommerceItemWithItemID:name:category:price:quantity:currency:) dynamic public class func extendedData(itemID: Swift.String?, name: Swift.String?, category: Swift.String?, price: Foundation.NSNumber?, quantity: Foundation.NSNumber?, currency: Swift.String?) -> [Swift.AnyHashable : Any]
   @available(*, deprecated, message: "This feature is not implemented and will always result in false.")
   @objc dynamic public func queryCanShowMessageCenter(completion: @escaping (Swift.Bool) -> Swift.Void)
-  @objc(presentMessageCenterFromViewController:) dynamic public func presentMessageCenterCompat(from viewController: UIKit.UIViewController?)
   @available(swift, deprecated: 1.0, message: "Use the method whose completion handler takes a Result<Bool, Error> parameter.")
   @objc(presentMessageCenterFromViewController:completion:) dynamic public func presentMessageCenterCompat(from viewController: UIKit.UIViewController?, completion: ((Swift.Bool) -> Swift.Void)? = nil)
   @objc(presentMessageCenterFromViewController:withCustomData:) dynamic public func presentMessageCenterCompat(from viewController: UIKit.UIViewController?, withCustomData customData: [Swift.AnyHashable : Any]?)
@@ -671,27 +675,27 @@ public typealias ApptentiveInteractionCallback = (Swift.String, [Swift.AnyHashab
     get
   }
 }
-@objc @available(*, deprecated, message: "Set the properties from this class on the 'Apptentive' object directly.")
+@objc @available(swift, deprecated: 1.0, message: "Set the properties from this class on the 'Apptentive' object directly.")
 public class ApptentiveConfiguration : ObjectiveC.NSObject {
   @objc final public let apptentiveKey: Swift.String
   @objc final public let apptentiveSignature: Swift.String
-  @available(swift, deprecated: 1.0, message: "Set the 'logLevel' property on 'ApptentiveLogger' or one of it's static log properties.")
+  @available(swift, deprecated: 1.0, message: "Set the 'logLevel' property on 'ApptentiveLogger' or one of its static log properties.")
   @objc public var logLevel: ApptentiveKit.ApptentiveLogLevel
-  @available(*, deprecated, message: "This property is ignored. Log messages will be redacted unless the app has a debugger attached.")
+  @available(swift, deprecated: 1.0, message: "Set the 'shouldHideSensitiveLogs' property on 'ApptentiveLogger' or one of its static log properties.")
   @objc public var shouldSanitizeLogMessages: Swift.Bool
   @available(*, deprecated, message: "This property is ignored. Use the designated initializer for 'Apptentive' to set this.")
   @objc public var baseURL: Foundation.URL?
-  @available(*, deprecated, message: "This property may take effect after the initial app information has been sent to the API.")
+  @available(swift, deprecated: 1.0, message: "Set the 'distributionName' property on 'Apptentive' directly before calling 'register(with:completion)'.")
   @objc public var distributionName: Swift.String?
-  @available(*, deprecated, message: "This property may take effect after the initial app information has been sent to the API.")
+  @available(swift, deprecated: 1.0, message: "Set the 'distributionVersion' property on 'Apptentive' directly before calling 'register(with:completion)'.")
   @objc public var distributionVersion: Swift.String?
   @available(*, deprecated, message: "This property is ignored. An 'SKStoreReviewController' will be used for all ratings.")
   @objc public var appID: Swift.String?
   @available(*, deprecated, message: "This property is ignored. The info button no longer exists.")
   @objc public var showInfoButton: Swift.Bool
-  @available(*, deprecated, message: "This feature is currently not implemented.")
+  @available(*, deprecated, message: "This property is ignored. Configure survey terms and conditions in the Apptentive Dashboard.")
   @objc public var surveyTermsAndConditions: ApptentiveKit.TermsAndConditions?
-  required public init?(apptentiveKey: Swift.String, apptentiveSignature: Swift.String)
+  @objc(initWithApptentiveKey:apptentiveSignature:) required public init?(apptentiveKey: Swift.String, apptentiveSignature: Swift.String)
   @objc public static func configuration(apptentiveKey key: Swift.String, apptentiveSignature signature: Swift.String) -> ApptentiveKit.ApptentiveConfiguration
   @objc deinit
 }
@@ -931,7 +935,7 @@ extension UIKit.UIFont {
   public static var messageCenterGreetingProfileInputText: UIKit.UIFont
   public static var apptentiveProfileSuggesstionLabel: UIKit.UIFont
   public static var apptentiveMessageCenterGreetingSendMessageButton: UIKit.UIFont
-  public static var apptentiveMessageCenterStatusMessage: UIKit.UIFont
+  public static var apptentiveMessageCenterStatus: UIKit.UIFont
   public static var apptentiveMessageCenterGreetingTitle: UIKit.UIFont
   public static var apptentiveMessageCenterGreetingBody: UIKit.UIFont
   public static var apptentiveMessageCenterAttachmentLabel: UIKit.UIFont
