@@ -10,9 +10,6 @@ namespace ApptentiveKit.iOS
 	[BaseType(typeof(UINavigationController), Name = "_TtC13ApptentiveKit30ApptentiveNavigationController")]
 	interface ApptentiveNavigationController
 	{
-		// @property (readonly, nonatomic) UIStatusBarStyle preferredStatusBarStyle;
-		[Export("preferredStatusBarStyle")]
-		UIStatusBarStyle PreferredStatusBarStyle { get; }
 	}
 
 	// @interface Apptentive : NSObject
@@ -26,8 +23,8 @@ namespace ApptentiveKit.iOS
 		Apptentive Shared { get; }
 
 		// -(void)registerWithKey:(NSString * _Nonnull)key signature:(NSString * _Nonnull)signature completion:(void (^ _Nullable)(BOOL))completion;
-		[Export("registerWithKey:signature:completion:")]
-		void Register(string key, string signature, [NullAllowed] Action<bool> completion);
+		[Export("registerWithConfiguration:completion:")]
+		void Register(IApptentiveConfiguration configuration, [NullAllowed] Action<bool> completion);
 
 		// -(void)engage:(NSString * _Nonnull)event fromViewController:(UIViewController * _Nullable)viewController;
 		[Export("engage:fromViewController:")]
@@ -156,5 +153,39 @@ namespace ApptentiveKit.iOS
 		// @property (copy, nonatomic) NSString * _Nullable distributionVersion;
 		[NullAllowed, Export("distributionVersion")]
 		string DistributionVersion { get; set; }
+	}
+
+	// @interface ApptentiveConfiguration : NSObject
+	[BaseType(typeof(NSObject), Name = "_TtC13ApptentiveKit23ApptentiveConfiguration")]
+	[DisableDefaultCtor]
+	interface IApptentiveConfiguration
+	{
+		// @property (readonly, copy, nonatomic) NSString * _Nonnull apptentiveKey;
+		[Export("apptentiveKey")]
+		string ApptentiveKey { get; }
+
+		// @property (readonly, copy, nonatomic) NSString * _Nonnull apptentiveSignature;
+		[Export("apptentiveSignature")]
+		string ApptentiveSignature { get; }
+
+		// @property (nonatomic) enum ApptentiveLogLevel logLevel;
+		[Export("logLevel", ArgumentSemantic.Assign)]
+		ApptentiveLogLevel LogLevel { get; set; }
+
+		// @property (nonatomic) BOOL shouldSanitizeLogMessages __attribute__((deprecated("This property is ignored. Log messages will be redacted unless the app has a debugger attached.")));
+		[Export("shouldSanitizeLogMessages")]
+		bool ShouldSanitizeLogMessages { get; set; }
+
+		// @property (copy, nonatomic) SWIFT_DEPRECATED_MSG("This property may take effect after the initial app information has been sent to the API.") NSString * distributionName __attribute__((deprecated("This property may take effect after the initial app information has been sent to the API.")));
+		[Export("distributionName")]
+		string DistributionName { get; set; }
+
+		// @property (copy, nonatomic) SWIFT_DEPRECATED_MSG("This property may take effect after the initial app information has been sent to the API.") NSString * distributionVersion __attribute__((deprecated("This property may take effect after the initial app information has been sent to the API.")));
+		[Export("distributionVersion")]
+		string DistributionVersion { get; set; }
+
+		// -(instancetype _Nullable)initWithApptentiveKey:(NSString * _Nonnull)apptentiveKey apptentiveSignature:(NSString * _Nonnull)apptentiveSignature;
+		[Export("initWithApptentiveKey:apptentiveSignature:")]
+		IntPtr Constructor(string apptentiveKey, string apptentiveSignature);
 	}
 }
