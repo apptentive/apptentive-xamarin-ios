@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ApptentiveSDK.iOS
+namespace ApptentiveKit.iOS
 {
     /// <summary>
     /// This class wraps the native ApptentiveConfiguration class and adds
@@ -24,12 +24,20 @@ namespace ApptentiveSDK.iOS
             configuration = new IApptentiveConfiguration(apptentiveKey, apptentiveSignature);
             configuration.DistributionName = "Xamarin";
             configuration.DistributionVersion = GetType().Assembly.GetName().Version.ToString(3);
+
+            configuration.ShouldSanitizeLogMessages = !System.Diagnostics.Debugger.IsAttached;
         }
 
         public ApptentiveLogLevel LogLevel
         {
             get { return configuration.LogLevel; }
             set { configuration.LogLevel = value; }
+        }
+
+        public bool ShouldSanitizeLogMessages
+        {
+            get { return configuration.ShouldSanitizeLogMessages; }
+            set { configuration.ShouldSanitizeLogMessages = value; }
         }
 
         // Implicit cast operator for API compatibility
