@@ -14,7 +14,7 @@ public class AppDelegate : UIApplicationDelegate
         ...
     
         var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
-        Apptentive.Shared.Register(configuration, (registered) => System.Console.WriteLine("Registered"));
+        Apptentive.Shared.Register(configuration, null);
 
         return true;
     }

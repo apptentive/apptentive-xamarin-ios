@@ -29,7 +29,7 @@ namespace ApptentiveSample
             // If not required for your application you can safely delete this method
             ApptentiveConfiguration configuration = new ApptentiveConfiguration("Your Apptentive App Key", "Your Apptentive App Signature");
             configuration.LogLevel = ApptentiveLogLevel.Verbose;
-            Apptentive.Shared.Register(configuration, (registered) => System.Console.WriteLine("Registered"));
+            Apptentive.Shared.Register(configuration, null);
 
             UNUserNotificationCenter.Current.RequestAuthorization((UNAuthorizationOptions.Sound | UNAuthorizationOptions.Alert), (Boolean Success, NSError Error) =>
             {
