@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApptentiveSample", "ApptentiveSample.csproj", "{768AB224-4045-40C9-A8FC-40328D21DA05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApptentiveKit.iOS", "..\..\source\ApptentiveKit.iOS.csproj", "{2E12D3F8-5171-422B-AD47-C605D74D6372}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apptentive.iOS", "..\..\source\Apptentive.iOS.csproj", "{2E12D3F8-5171-422B-AD47-C605D74D6372}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

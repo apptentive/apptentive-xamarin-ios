@@ -4,7 +4,7 @@
 Register Apptentive in your Application class.
 
 ```
-using ApptentiveKit.iOS;
+using ApptentiveSDK.iOS;
 
 [Register("AppDelegate")]
 public class AppDelegate : UIApplicationDelegate
@@ -14,25 +14,13 @@ public class AppDelegate : UIApplicationDelegate
         ...
     
         var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
-        Apptentive.Shared.Register(configuration, (registered) => System.Console.WriteLine("Registered"));
+        Apptentive.Register(configuration);
 
         return true;
     }
 }
 ```
 Make sure you use the Apptentive App Key and Signature for the iOS app you created in the Apptentive console. Sharing these keys between two apps, or using keys from the wrong platform is not supported, and will lead to incorrect behavior. You can find them [here](https://be.apptentive.com/apps/current/settings/api).
-
-## Events
-
-Events record user interaction. You can use them to determine if and when an Interaction will be shown to your customer. You will use these Events later to target Interactions, and to determine whether an Interaction can be shown. You trigger an Event with the `Engage()` method. This will record the Event, and then check to see if any Interactions targeted to that Event are allowed to be displayed, based on the logic you set up in the Apptentive Dashboard.
-  
-```
-var engageButton = FindViewById<Button>(...);
-engageButton.Click += delegate
-{
-    Apptentive.Shared.Engage("my_event", this, (engaged) => Console.WriteLine("Event engaged: " + engaged) ); // assuming 'this' is a ViewController
-};
-```
 
 ## Message Center
 
@@ -82,50 +70,44 @@ You can receive a callback when a new unread message comes in. You can use this 
 ```
 public partial class ViewController : UIViewController
 {
-    private IDisposable Observer = null;
-  
     public override void ViewDidLoad()
     {
         base.ViewDidLoad();
         
         ...
         
-        Observer = Apptentive.Shared.AddObserver("unreadMessageCount", Foundation.NSKeyValueObservingOptions.New, (NSObservedChange obj) =>
+        NSNotificationCenter.DefaultCenter.AddObserver(Constants.ApptentiveMessageCenterUnreadCountChangedNotification, (NSNotification obj) =>
         {
-          UnreadMessagesTextView.Text = "Unread messages: " + Apptentive.Shared.UnreadMessageCount;
+            UnreadMessagesTextView.Text = "Unread messages: " + Apptentive.Shared.UnreadMessageCount;
         });
     }
 }
 ```
 
-### Push Notifications
+## Events
+
+Events record user interaction. You can use them to determine if and when an Interaction will be shown to your customer. You will use these Events later to target Interactions, and to determine whether an Interaction can be shown. You trigger an Event with the `Engage()` method. This will record the Event, and then check to see if any Interactions targeted to that Event are allowed to be displayed, based on the logic you set up in the Apptentive Dashboard.
+  
+```
+var engageButton = FindViewById<Button>(...);
+engageButton.Click += delegate
+{
+    Apptentive.Shared.Engage("my_event", this, (engaged) => Console.WriteLine("Event engaged: " + engaged) ); // assuming 'this' is a ViewController
+};
+```
+
+## Push Notifications
 
 Apptentive can send push notifications to your app when you reply to your customers. Your replies are more likely to be seen by your customer when you do this. To set up push notifications, you will need to supply your push credentials on the Integrations page of your Apptentive dashboard, send us the ID that your push provider uses to identify the device, and call into our SDK when a user opens a push notification.
 
 To use Apptentive push, you will need to add code to your application delegate, configure your app for push in the developer portal, and supply your push certificate and private key in your Apptentive dashboard.
 
+### Configuring Your Application Delegate for Push
+
 Your app will have to register for remote notifications (we recommend registering for alert and sound notifications) as follows:
 
 ```
-
-using UserNotifications;
-
-...
-
-UNUserNotificationCenter.Current.RequestAuthorization((UNAuthorizationOptions.Sound | UNAuthorizationOptions.Alert), (Boolean Success, NSError Error) =>
-{
-    if (Success) {
-        Console.WriteLine("Successfully got notification permission.");
-    }
-    else if (Error != null)
-    {
-        Console.WriteLine("Failed to get notification permission: " + Error.LocalizedDescription);
-    }
-});
-
-UIApplication.SharedApplication.RegisterForRemoteNotifications();
-
-UNUserNotificationCenter.Current.Delegate = Apptentive.Shared;
+var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert | UIUserNotificationType.Sound, new NSSet());
 
 UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
 UIApplication.SharedApplication.RegisterForRemoteNotifications();
@@ -136,7 +118,7 @@ When the registration succeeds, your application delegate will have to pass the 
 ```
 public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
 {
-    Apptentive.Shared.SetRemoteNotificationDeviceToken(deviceToken);
+    Apptentive.Shared.SetPushNotificationIntegration(ApptentivePushProvider.Apptentive, deviceToken);
 }
 ```
 
@@ -145,7 +127,12 @@ Your application delegate will also have to forward any push and local notificat
 ```
 public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
 {
-    Apptentive.Shared.DidReceiveRemoteNotification(userInfo, completionHandler);
+    Apptentive.Shared.DidReceiveRemoteNotification(userInfo, this.Window.RootViewController, completionHandler);
+}
+
+public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+{
+    Apptentive.Shared.DidReceiveLocalNotification(notification, this.Window.RootViewController);
 }
 ```
 
