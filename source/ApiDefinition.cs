@@ -1,160 +1,474 @@
-using System;
+﻿using System;
 using Foundation;
 using ObjCRuntime;
 using UIKit;
 using UserNotifications;
 
-namespace ApptentiveKit.iOS
+namespace ApptentiveSDK.iOS
 {
-	// @interface ApptentiveNavigationController : UINavigationController
-	[BaseType(typeof(UINavigationController), Name = "_TtC13ApptentiveKit30ApptentiveNavigationController")]
-	interface ApptentiveNavigationController
-	{
-		// @property (readonly, nonatomic) UIStatusBarStyle preferredStatusBarStyle;
-		[Export("preferredStatusBarStyle")]
-		UIStatusBarStyle PreferredStatusBarStyle { get; }
-	}
+    // typedef void (^ApptentiveAuthenticationFailureCallback)(ApptentiveAuthenticationFailureReason, NSString * _Nonnull);
+    delegate void ApptentiveAuthenticationFailureCallback(ApptentiveAuthenticationFailureReason reason, string message);
 
-	// @interface Apptentive : NSObject
-	[BaseType (typeof(NSObject), Name = "_TtC13ApptentiveKit10Apptentive")]
-	[DisableDefaultCtor]
-	interface Apptentive : IUNUserNotificationCenterDelegate
-	{
-		// @property (readonly, nonatomic, strong, class) Apptentive * _Nonnull shared;
-		[Static]
-		[Export ("shared", ArgumentSemantic.Strong)]
-		Apptentive Shared { get; }
+    [Static]
+    partial interface Constants
+    {
+        // extern const NSNotificationName _Nonnull ApptentiveMessageCenterUnreadCountChangedNotification;
+        [Field("ApptentiveMessageCenterUnreadCountChangedNotification", "__Internal")]
+        NSString ApptentiveMessageCenterUnreadCountChangedNotification { get; }
 
-		// -(void)registerWithKey:(NSString * _Nonnull)key signature:(NSString * _Nonnull)signature completion:(void (^ _Nullable)(BOOL))completion;
-		[Export("registerWithKey:signature:completion:")]
-		void Register(string key, string signature, [NullAllowed] Action<bool> completion);
+        // extern const NSNotificationName _Nonnull ApptentiveAppRatingFlowUserAgreedToRateAppNotification;
+        [Field("ApptentiveAppRatingFlowUserAgreedToRateAppNotification", "__Internal")]
+        NSString ApptentiveAppRatingFlowUserAgreedToRateAppNotification { get; }
 
-		// -(void)engage:(NSString * _Nonnull)event fromViewController:(UIViewController * _Nullable)viewController;
-		[Export("engage:fromViewController:")]
-		void Engage(string @event, [NullAllowed] UIViewController viewController);
+        // extern const NSNotificationName _Nonnull ApptentiveSurveyShownNotification;
+        [Field("ApptentiveSurveyShownNotification", "__Internal")]
+        NSString ApptentiveSurveyShownNotification { get; }
 
-		// -(void)engage:(NSString * _Nonnull)event fromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
-		[Export("engage:fromViewController:completion:")]
-		void Engage(string @event, [NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+        // extern const NSNotificationName _Nonnull ApptentiveSurveySentNotification;
+        [Field("ApptentiveSurveySentNotification", "__Internal")]
+        NSString ApptentiveSurveySentNotification { get; }
 
-		// -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData fromViewController:(UIViewController * _Nullable)viewController;
-		[Export("engage:withCustomData:fromViewController:")]
-		void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] UIViewController viewController);
+        // extern NSString *const _Nonnull ApptentiveErrorDomain;
+        [Field("ApptentiveErrorDomain", "__Internal")]
+        NSString ApptentiveErrorDomain { get; }
 
-		// -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData fromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
-		[Export("engage:withCustomData:fromViewController:completion:")]
-		void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+        // extern NSString *const _Nonnull ApptentiveSurveyIDKey;
+        [Field("ApptentiveSurveyIDKey", "__Internal")]
+        NSString ApptentiveSurveyIDKey { get; }
 
-		// -(void)queryCanShowInteractionForEvent:(NSString * _Nonnull)event completion:(void (^ _Nonnull)(BOOL))completion;
-		[Export("queryCanShowInteractionForEvent:completion:")]
-		void QueryCanShowInteraction(string @event, Action<bool> completion);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleBody;
+        [Field("ApptentiveTextStyleBody", "__Internal")]
+        NSString ApptentiveTextStyleBody { get; }
 
-		// -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController;
-		[Export("presentMessageCenterFromViewController:")]
-		void PresentMessageCenter([NullAllowed] UIViewController viewController);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleHeaderTitle;
+        [Field("ApptentiveTextStyleHeaderTitle", "__Internal")]
+        NSString ApptentiveTextStyleHeaderTitle { get; }
 
-		// -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
-		[Export("presentMessageCenterFromViewController:completion:")]
-		void PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleHeaderMessage;
+        [Field("ApptentiveTextStyleHeaderMessage", "__Internal")]
+        NSString ApptentiveTextStyleHeaderMessage { get; }
 
-		// -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController withCustomData:(NSDictionary * _Nullable)customData;
-		[Export("presentMessageCenterFromViewController:withCustomData:")]
-		void PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] NSDictionary customData);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleMessageDate;
+        [Field("ApptentiveTextStyleMessageDate", "__Internal")]
+        NSString ApptentiveTextStyleMessageDate { get; }
 
-		// -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController withCustomData:(NSDictionary * _Nullable)customData completion:(void (^ _Nullable)(BOOL))completion;
-		[Export("presentMessageCenterFromViewController:withCustomData:completion:")]
-		void PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] NSDictionary customData, [NullAllowed] Action<bool> completion);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleMessageSender;
+        [Field("ApptentiveTextStyleMessageSender", "__Internal")]
+        NSString ApptentiveTextStyleMessageSender { get; }
 
-		// @property (nonatomic) NSInteger unreadMessageCount;
-		[Export("unreadMessageCount")]
-		nint UnreadMessageCount { get; }
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleMessageStatus;
+        [Field("ApptentiveTextStyleMessageStatus", "__Internal")]
+        NSString ApptentiveTextStyleMessageStatus { get; }
 
-		// -(void)setRemoteNotificationDeviceToken:(NSData * _Nonnull)tokenData;
-		[Export("setRemoteNotificationDeviceToken:")]
-		void SetRemoteNotificationDeviceToken(NSData tokenData);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleMessageCenterStatus;
+        [Field("ApptentiveTextStyleMessageCenterStatus", "__Internal")]
+        NSString ApptentiveTextStyleMessageCenterStatus { get; }
 
-		// -(BOOL)didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler __attribute__((warn_unused_result("")));
-		[Export("didReceiveRemoteNotification:fetchCompletionHandler:")]
-		bool DidReceiveRemoteNotification(NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleSurveyInstructions;
+        [Field("ApptentiveTextStyleSurveyInstructions", "__Internal")]
+        NSString ApptentiveTextStyleSurveyInstructions { get; }
 
-		// -(BOOL)didReceveUserNotificationResponse:(UNNotificationResponse * _Nonnull)response withCompletionHandler:(void (^ _Nonnull)(void))completionHandler __attribute__((warn_unused_result("")));
-		[Export("didReceveUserNotificationResponse:withCompletionHandler:")]
-		bool DidReceveUserNotification(UNNotificationResponse response, Action completionHandler);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleDoneButton;
+        [Field("ApptentiveTextStyleDoneButton", "__Internal")]
+        NSString ApptentiveTextStyleDoneButton { get; }
 
-		// -(BOOL)willPresentNotification:(UNNotification * _Nonnull)notification withCompletionHandler:(void (^ _Nonnull)(UNNotificationPresentationOptions))completionHandler __attribute__((warn_unused_result("")));
-		[Export("willPresentNotification:withCompletionHandler:")]
-		bool WillPresentNotification(UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleButton;
+        [Field("ApptentiveTextStyleButton", "__Internal")]
+        NSString ApptentiveTextStyleButton { get; }
 
-		// -(void)sendAttachmentText:(NSString * _Nonnull)text;
-		[Export("sendAttachmentText:")]
-		void SendAttachment(string text);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleSubmitButton;
+        [Field("ApptentiveTextStyleSubmitButton", "__Internal")]
+        NSString ApptentiveTextStyleSubmitButton { get; }
 
-		// -(void)sendAttachmentImage:(UIImage * _Nonnull)image;
-		[Export("sendAttachmentImage:")]
-		void SendAttachment(UIImage image);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveTextStyleTextInput;
+        [Field("ApptentiveTextStyleTextInput", "__Internal")]
+        NSString ApptentiveTextStyleTextInput { get; }
 
-		// -(void)sendAttachmentFile:(NSData * _Nonnull)fileData withMimeType:(NSString * _Nonnull)mediaType;
-		[Export("sendAttachmentFile:withMimeType:")]
-		void SendAttachment(NSData fileData, string mimeType);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorHeaderBackground;
+        [Field("ApptentiveColorHeaderBackground", "__Internal")]
+        NSString ApptentiveColorHeaderBackground { get; }
 
-		// @property (copy, nonatomic) NSString * _Nullable personName;
-		[NullAllowed, Export("personName")]
-		string PersonName { get; set; }
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorFooterBackground;
+        [Field("ApptentiveColorFooterBackground", "__Internal")]
+        NSString ApptentiveColorFooterBackground { get; }
 
-		// @property (copy, nonatomic) NSString * _Nullable personEmailAddress;
-		[NullAllowed, Export("personEmailAddress")]
-		string PersonEmailAddress { get; set; }
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorFailure;
+        [Field("ApptentiveColorFailure", "__Internal")]
+        NSString ApptentiveColorFailure { get; }
 
-		// @property (copy, nonatomic) NSString * _Nullable mParticleID;
-		[NullAllowed, Export("mParticleID")]
-		string MParticleID { get; set; }
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorSeparator;
+        [Field("ApptentiveColorSeparator", "__Internal")]
+        NSString ApptentiveColorSeparator { get; }
 
-		// -(void)removeCustomPersonDataWithKey:(NSString * _Nonnull)key;
-		[Export("removeCustomPersonDataWithKey:")]
-		void RemoveCustomPersonData(string key);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorBackground;
+        [Field("ApptentiveColorBackground", "__Internal")]
+        NSString ApptentiveColorBackground { get; }
 
-		// -(void)removeCustomDeviceDataWithKey:(NSString * _Nonnull)key;
-		[Export("removeCustomDeviceDataWithKey:")]
-		void RemoveCustomDeviceData(string key);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorCollectionBackground;
+        [Field("ApptentiveColorCollectionBackground", "__Internal")]
+        NSString ApptentiveColorCollectionBackground { get; }
 
-		// -(void)addCustomDeviceDataString:(NSString * _Nonnull)string withKey:(NSString * _Nonnull)key;
-		[Export("addCustomDeviceDataString:withKey:")]
-		void AddCustomDeviceData(string @string, string key);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorTextInputBackground;
+        [Field("ApptentiveColorTextInputBackground", "__Internal")]
+        NSString ApptentiveColorTextInputBackground { get; }
 
-		// -(void)addCustomDeviceDataNumber:(NSNumber * _Nonnull)number withKey:(NSString * _Nonnull)key;
-		[Export("addCustomDeviceDataNumber:withKey:")]
-		void AddCustomDeviceData(NSNumber number, string key);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorTextInputPlaceholder;
+        [Field("ApptentiveColorTextInputPlaceholder", "__Internal")]
+        NSString ApptentiveColorTextInputPlaceholder { get; }
 
-		// -(void)addCustomDeviceDataBool:(BOOL)boolValue withKey:(NSString * _Nonnull)key;
-		[Export("addCustomDeviceDataBool:withKey:")]
-		void AddCustomDeviceData(bool boolValue, string key);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorMessageBackground;
+        [Field("ApptentiveColorMessageBackground", "__Internal")]
+        NSString ApptentiveColorMessageBackground { get; }
 
-		// -(void)addCustomPersonDataString:(NSString * _Nonnull)string withKey:(NSString * _Nonnull)key;
-		[Export("addCustomPersonDataString:withKey:")]
-		void AddCustomPersonData(string @string, string key);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorReplyBackground;
+        [Field("ApptentiveColorReplyBackground", "__Internal")]
+        NSString ApptentiveColorReplyBackground { get; }
 
-		// -(void)addCustomPersonDataNumber:(NSNumber * _Nonnull)number withKey:(NSString * _Nonnull)key;
-		[Export("addCustomPersonDataNumber:withKey:")]
-		void AddCustomPersonData(NSNumber number, string key);
+        // extern ApptentiveStyleIdentifier _Nonnull ApptentiveColorContextBackground;
+        [Field("ApptentiveColorContextBackground", "__Internal")]
+        NSString ApptentiveColorContextBackground { get; }
 
-		// -(void)addCustomPersonDataBool:(BOOL)boolValue withKey:(NSString * _Nonnull)key;
-		[Export("addCustomPersonDataBool:withKey:")]
-		void AddCustomPersonData(bool boolValue, string key);
+        // extern double ApptentiveVersionNumber;
+        // [Field("ApptentiveVersionNumber", "__Internal")]
+        // double ApptentiveVersionNumber { get; }
 
-		// -(void)dismissAllInteractions:(BOOL)animated;
-		[Export("dismissAllInteractions:")]
-		void DismissAllInteractions(bool animated);
+        // extern const unsigned char [] ApptentiveVersionString;
+        // [Field("ApptentiveVersionString", "__Internal")]
+        // byte[] ApptentiveVersionString { get; }
+    }
 
-		// @property (nonatomic) enum ApptentiveLogLevel logLevel;
-		[Export("logLevel", ArgumentSemantic.Assign)]
-		ApptentiveLogLevel LogLevel { get; set; }
+    // @interface ApptentiveConfiguration : NSObject
+    [BaseType(typeof(NSObject), Name="ApptentiveConfiguration")]
+    interface IApptentiveConfiguration // we don't use this class directly but a wrapper version instead
+    {
+        // @property (readonly, copy, nonatomic) NSString * _Nonnull apptentiveKey;
+        [Export("apptentiveKey")]
+        string ApptentiveKey { get; }
 
-		// @property (copy, nonatomic) NSString * _Nullable distributionName;
-		[NullAllowed, Export("distributionName")]
-		string DistributionName { get; set; }
+        // @property (readonly, copy, nonatomic) NSString * _Nonnull apptentiveSignature;
+        [Export("apptentiveSignature")]
+        string ApptentiveSignature { get; }
 
-		// @property (copy, nonatomic) NSString * _Nullable distributionVersion;
-		[NullAllowed, Export("distributionVersion")]
-		string DistributionVersion { get; set; }
-	}
+        // @property (assign, nonatomic) ApptentiveLogLevel logLevel;
+        [Export("logLevel", ArgumentSemantic.Assign)]
+        ApptentiveLogLevel LogLevel { get; set; }
+
+        // @property (copy, nonatomic) NSURL * _Nonnull baseURL;
+        [Export("baseURL", ArgumentSemantic.Copy)]
+        NSUrl BaseURL { get; set; }
+
+        // @property (copy, nonatomic) NSString * _Nullable distributionName;
+        [NullAllowed, Export("distributionName")]
+        string DistributionName { get; set; }
+
+        // @property (copy, nonatomic) NSString * _Nullable distributionVersion;
+        [NullAllowed, Export("distributionVersion")]
+        string DistributionVersion { get; set; }
+
+        // @property (copy, nonatomic) NSString * _Nullable appID;
+        [NullAllowed, Export("appID")]
+        string AppID { get; set; }
+
+        // -(instancetype _Nullable)initWithApptentiveKey:(NSString * _Nonnull)apptentiveKey apptentiveSignature:(NSString * _Nonnull)apptentiveSignature;
+        [Export("initWithApptentiveKey:apptentiveSignature:")]
+        IntPtr Constructor(string apptentiveKey, string apptentiveSignature);
+    }
+
+    // @interface ApptentiveNavigationController : UINavigationController
+    [BaseType(typeof(UINavigationController))]
+    interface ApptentiveNavigationController
+    {
+    }
+
+    // @interface Apptentive : NSObject
+    [BaseType(typeof(NSObject))]
+    interface Apptentive : IUNUserNotificationCenterDelegate
+    {
+        // @property (readonly, nonatomic, class) Apptentive * _Nonnull shared;
+        [Static]
+        [Export("shared")]
+        Apptentive Shared { get; }
+
+        // +(void)registerWithConfiguration:(ApptentiveConfiguration * _Nonnull)configuration;
+        [Static]
+        [Export("registerWithConfiguration:")]
+        void Register(IApptentiveConfiguration configuration);
+
+        // @property (readonly, nonatomic) NSString * _Nonnull apptentiveKey;
+        [Export("apptentiveKey")]
+        string ApptentiveKey { get; }
+
+        // @property (readonly, nonatomic) NSString * _Nonnull apptentiveSignature;
+        [Export("apptentiveSignature")]
+        string ApptentiveSignature { get; }
+
+        // @property (copy, nonatomic) NSString * _Nullable appID;
+        [NullAllowed, Export("appID")]
+        string AppID { get; set; }
+
+        // -(void)engage:(NSString * _Nonnull)event fromViewController:(UIViewController * _Nullable)viewController;
+        [Export("engage:fromViewController:")]
+        void Engage(string @event, [NullAllowed] UIViewController viewController);
+
+        // -(void)engage:(NSString * _Nonnull)event fromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("engage:fromViewController:completion:")]
+        void Engage(string @event, [NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+
+        // -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData fromViewController:(UIViewController * _Nullable)viewController;
+        [Export("engage:withCustomData:fromViewController:")]
+        void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] UIViewController viewController);
+
+        // -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData fromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("engage:withCustomData:fromViewController:completion:")]
+        void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+
+        // -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData withExtendedData:(NSArray<NSDictionary *> * _Nullable)extendedData fromViewController:(UIViewController * _Nullable)viewController;
+        [Export("engage:withCustomData:withExtendedData:fromViewController:")]
+        void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] NSDictionary[] extendedData, [NullAllowed] UIViewController viewController);
+
+        // -(void)engage:(NSString * _Nonnull)event withCustomData:(NSDictionary * _Nullable)customData withExtendedData:(NSArray<NSDictionary *> * _Nullable)extendedData fromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("engage:withCustomData:withExtendedData:fromViewController:completion:")]
+        void Engage(string @event, [NullAllowed] NSDictionary customData, [NullAllowed] NSDictionary[] extendedData, [NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+
+        // -(void)queryCanShowInteractionForEvent:(NSString * _Nonnull)event completion:(void (^ _Nonnull)(BOOL))completion;
+        [Export("queryCanShowInteractionForEvent:completion:")]
+        void QueryCanShowInteraction(string @event, Action<bool> completion);
+
+        // +(NSDictionary * _Nonnull)extendedDataDate:(NSDate * _Nonnull)date;
+        [Static]
+        [Export("extendedDataDate:")]
+        NSDictionary ExtendedDataDate(NSDate date);
+
+        // +(NSDictionary * _Nonnull)extendedDataLocationForLatitude:(double)latitude longitude:(double)longitude;
+        [Static]
+        [Export("extendedDataLocationForLatitude:longitude:")]
+        NSDictionary ExtendedDataLocation(double latitude, double longitude);
+
+        // +(NSDictionary * _Nonnull)extendedDataCommerceWithTransactionID:(NSString * _Nullable)transactionID affiliation:(NSString * _Nullable)affiliation revenue:(NSNumber * _Nullable)revenue shipping:(NSNumber * _Nullable)shipping tax:(NSNumber * _Nullable)tax currency:(NSString * _Nullable)currency commerceItems:(NSArray<NSDictionary *> * _Nullable)commerceItems;
+        [Static]
+        [Export("extendedDataCommerceWithTransactionID:affiliation:revenue:shipping:tax:currency:commerceItems:")]
+        NSDictionary ExtendedDataCommerce([NullAllowed] string transactionID, [NullAllowed] string affiliation, [NullAllowed] NSNumber revenue, [NullAllowed] NSNumber shipping, [NullAllowed] NSNumber tax, [NullAllowed] string currency, [NullAllowed] NSDictionary[] commerceItems);
+
+        // +(NSDictionary * _Nonnull)extendedDataCommerceItemWithItemID:(NSString * _Nullable)itemID name:(NSString * _Nullable)name category:(NSString * _Nullable)category price:(NSNumber * _Nullable)price quantity:(NSNumber * _Nullable)quantity currency:(NSString * _Nullable)currency;
+        [Static]
+        [Export("extendedDataCommerceItemWithItemID:name:category:price:quantity:currency:")]
+        NSDictionary ExtendedDataCommerce([NullAllowed] string itemID, [NullAllowed] string name, [NullAllowed] string category, [NullAllowed] NSNumber price, [NullAllowed] NSNumber quantity, [NullAllowed] string currency);
+
+        // -(void)queryCanShowMessageCenterWithCompletion:(void (^ _Nonnull)(BOOL))completion;
+        [Export("queryCanShowMessageCenterWithCompletion:")]
+        void QueryCanShowMessageCenter(Action<bool> completion);
+
+        // -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController;
+        [Export("presentMessageCenterFromViewController:")]
+        void PresentMessageCenter([NullAllowed] UIViewController viewController);
+
+        // -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("presentMessageCenterFromViewController:completion:")]
+        void PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] Action<bool> completion);
+
+        // -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController withCustomData:(NSDictionary * _Nullable)customData;
+        [Export("presentMessageCenterFromViewController:withCustomData:")]
+        void PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] NSDictionary customData);
+
+        // -(void)presentMessageCenterFromViewController:(UIViewController * _Nullable)viewController withCustomData:(NSDictionary * _Nullable)customData completion:(void (^ _Nullable)(BOOL))completion;
+        [Export("presentMessageCenterFromViewController:withCustomData:completion:")]
+        void PresentMessageCenter([NullAllowed] UIViewController viewController, [NullAllowed] NSDictionary customData, [NullAllowed] Action<bool> completion);
+
+        // -(void)dismissMessageCenterAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
+        [Export("dismissMessageCenterAnimated:completion:")]
+        void DismissMessageCenter(bool animated, [NullAllowed] Action completion);
+
+        // @property (readonly, nonatomic) NSUInteger unreadMessageCount;
+        [Export("unreadMessageCount")]
+        nuint UnreadMessageCount { get; }
+
+        // -(UIView * _Nonnull)unreadMessageCountAccessoryView:(BOOL)apptentiveHeart;
+        [Export("unreadMessageCountAccessoryView:")]
+        UIView UnreadMessageCountAccessoryView(bool apptentiveHeart);
+
+        // -(void)openAppStore;
+        [Export("openAppStore")]
+        void OpenAppStore();
+
+        // -(void)setPushNotificationIntegration:(ApptentivePushProvider)pushProvider withDeviceToken:(NSData * _Nonnull)deviceToken;
+        [Export("setPushNotificationIntegration:withDeviceToken:")]
+        void SetPushNotificationIntegration(ApptentivePushProvider pushProvider, NSData deviceToken);
+
+        // -(BOOL)didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fromViewController:(UIViewController * _Nonnull)viewController;
+        [Export("didReceiveRemoteNotification:fromViewController:")]
+        bool DidReceiveRemoteNotification(NSDictionary userInfo, UIViewController viewController);
+
+        // -(BOOL)didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fromViewController:(UIViewController * _Nonnull)viewController fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
+        [Export("didReceiveRemoteNotification:fromViewController:fetchCompletionHandler:")]
+        bool DidReceiveRemoteNotification(NSDictionary userInfo, UIViewController viewController, Action<UIBackgroundFetchResult> completionHandler);
+
+        // -(BOOL)didReceiveLocalNotification:(UILocalNotification * _Nonnull)notification fromViewController:(UIViewController * _Nonnull)viewController;
+        [Export("didReceiveLocalNotification:fromViewController:")]
+        bool DidReceiveLocalNotification(UILocalNotification notification, UIViewController viewController);
+
+        // -(BOOL)didReceveUserNotificationResponse:(UNNotificationResponse * _Nonnull)response withCompletionHandler:(void (^ _Nonnull)(void))completionHandler;
+        [Export("didReceveUserNotificationResponse:withCompletionHandler:")]
+        bool DidReceveUserNotification(UNNotificationResponse response, Action completionHandler);
+
+        // - (BOOL)willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler;
+        [Export("willPresentNotification:withCompletionHandler:")]
+        bool WillPresentNotification(UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler);
+
+        // -(void)sendAttachmentText:(NSString * _Nonnull)text;
+        [Export("sendAttachmentText:")]
+        void SendAttachment(string text);
+
+        // -(void)sendAttachmentImage:(UIImage * _Nonnull)image;
+        [Export("sendAttachmentImage:")]
+        void SendAttachment(UIImage image);
+
+        // -(void)sendAttachmentFile:(NSData * _Nonnull)fileData withMimeType:(NSString * _Nonnull)mimeType;
+        [Export("sendAttachmentFile:withMimeType:")]
+        void SendAttachment(NSData fileData, string mimeType);
+
+        // @property (copy, nonatomic) NSString * _Nullable personName;
+        [NullAllowed, Export("personName")]
+        string PersonName { get; set; }
+
+        // @property (copy, nonatomic) NSString * _Nullable personEmailAddress;
+        [NullAllowed, Export("personEmailAddress")]
+        string PersonEmailAddress { get; set; }
+
+        // -(void)removeCustomPersonDataWithKey:(NSString * _Nonnull)key;
+        [Export("removeCustomPersonDataWithKey:")]
+        void RemoveCustomPersonData(string key);
+
+        // -(void)removeCustomDeviceDataWithKey:(NSString * _Nonnull)key;
+        [Export("removeCustomDeviceDataWithKey:")]
+        void RemoveCustomDeviceData(string key);
+
+        // -(void)addCustomDeviceDataString:(NSString * _Nonnull)string withKey:(NSString * _Nonnull)key;
+        [Export("addCustomDeviceDataString:withKey:")]
+        void AddCustomDeviceData(string @string, string key);
+
+        // -(void)addCustomDeviceDataNumber:(NSNumber * _Nonnull)number withKey:(NSString * _Nonnull)key;
+        [Export("addCustomDeviceDataNumber:withKey:")]
+        void AddCustomDeviceData(NSNumber number, string key);
+
+        // -(void)addCustomDeviceDataBool:(BOOL)boolValue withKey:(NSString * _Nonnull)key;
+        [Export("addCustomDeviceDataBool:withKey:")]
+        void AddCustomDeviceData(bool boolValue, string key);
+
+        // -(void)addCustomPersonDataString:(NSString * _Nonnull)string withKey:(NSString * _Nonnull)key;
+        [Export("addCustomPersonDataString:withKey:")]
+        void AddCustomPersonData(string @string, string key);
+
+        // -(void)addCustomPersonDataNumber:(NSNumber * _Nonnull)number withKey:(NSString * _Nonnull)key;
+        [Export("addCustomPersonDataNumber:withKey:")]
+        void AddCustomPersonData(NSNumber number, string key);
+
+        // -(void)addCustomPersonDataBool:(BOOL)boolValue withKey:(NSString * _Nonnull)key;
+        [Export("addCustomPersonDataBool:withKey:")]
+        void AddCustomPersonData(bool boolValue, string key);
+
+        // -(void)dismissAllInteractions:(BOOL)animated;
+        [Export("dismissAllInteractions:")]
+        void DismissAllInteractions(bool animated);
+
+        // @property (nonatomic, strong) id<ApptentiveStyle> _Nonnull styleSheet;
+        [Export("styleSheet", ArgumentSemantic.Strong)]
+        ApptentiveStyle StyleSheet { get; set; }
+
+        // -(void)logInWithToken:(NSString * _Nonnull)token completion:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))completion;
+        [Export("logInWithToken:completion:")]
+        void LogIn(string token, Action<bool, NSError> completion);
+
+        // -(void)logOut;
+        [Export("logOut")]
+        void LogOut();
+
+        // @property (copy, nonatomic) ApptentiveAuthenticationFailureCallback _Nonnull authenticationFailureCallback;
+        [Export("authenticationFailureCallback", ArgumentSemantic.Copy)]
+        ApptentiveAuthenticationFailureCallback AuthenticationFailureCallback { get; set; }
+
+        // @property (assign, nonatomic) ApptentiveLogLevel logLevel;
+        [Export("logLevel", ArgumentSemantic.Assign)]
+        ApptentiveLogLevel LogLevel { get; set; }
+    }
+
+    // @protocol ApptentiveStyle <NSObject>
+    [Protocol, Model]
+    [BaseType(typeof(NSObject))]
+    interface ApptentiveStyle
+    {
+        // @required -(UIFont * _Nonnull)fontForStyle:(ApptentiveStyleIdentifier _Nonnull)textStyle;
+        [Abstract]
+        [Export("fontForStyle:")]
+        UIFont FontForStyle(string textStyle);
+
+        // @required -(UIColor * _Nonnull)colorForStyle:(ApptentiveStyleIdentifier _Nonnull)style;
+        [Abstract]
+        [Export("colorForStyle:")]
+        UIColor ColorForStyle(string style);
+    }
+
+    // @interface ApptentiveStyleSheet : NSObject <ApptentiveStyle>
+    [BaseType(typeof(NSObject))]
+    interface ApptentiveStyleSheet /* : IApptentiveStyle */
+    {
+        // @property (copy, nonatomic) NSString * _Nonnull fontFamily;
+        [Export("fontFamily")]
+        string FontFamily { get; set; }
+
+        // @property (copy, nonatomic) NSString * _Nullable lightFaceAttribute;
+        [NullAllowed, Export("lightFaceAttribute")]
+        string LightFaceAttribute { get; set; }
+
+        // @property (copy, nonatomic) NSString * _Nullable regularFaceAttribute;
+        [NullAllowed, Export("regularFaceAttribute")]
+        string RegularFaceAttribute { get; set; }
+
+        // @property (copy, nonatomic) NSString * _Nullable mediumFaceAttribute;
+        [NullAllowed, Export("mediumFaceAttribute")]
+        string MediumFaceAttribute { get; set; }
+
+        // @property (copy, nonatomic) NSString * _Nullable boldFaceAttribute;
+        [NullAllowed, Export("boldFaceAttribute")]
+        string BoldFaceAttribute { get; set; }
+
+        // @property (nonatomic, strong) UIColor * _Nonnull primaryColor;
+        [Export("primaryColor", ArgumentSemantic.Strong)]
+        UIColor PrimaryColor { get; set; }
+
+        // @property (nonatomic, strong) UIColor * _Nonnull secondaryColor;
+        [Export("secondaryColor", ArgumentSemantic.Strong)]
+        UIColor SecondaryColor { get; set; }
+
+        // @property (nonatomic, strong) UIColor * _Nonnull failureColor;
+        [Export("failureColor", ArgumentSemantic.Strong)]
+        UIColor FailureColor { get; set; }
+
+        // @property (nonatomic, strong) UIColor * _Nonnull backgroundColor;
+        [Export("backgroundColor", ArgumentSemantic.Strong)]
+        UIColor BackgroundColor { get; set; }
+
+        // @property (nonatomic, strong) UIColor * _Nonnull separatorColor;
+        [Export("separatorColor", ArgumentSemantic.Strong)]
+        UIColor SeparatorColor { get; set; }
+
+        // @property (nonatomic, strong) UIColor * _Nonnull collectionBackgroundColor;
+        [Export("collectionBackgroundColor", ArgumentSemantic.Strong)]
+        UIColor CollectionBackgroundColor { get; set; }
+
+        // @property (nonatomic, strong) UIColor * _Nonnull placeholderColor;
+        [Export("placeholderColor", ArgumentSemantic.Strong)]
+        UIColor PlaceholderColor { get; set; }
+
+        // @property (assign, nonatomic) CGFloat sizeAdjustment;
+        [Export("sizeAdjustment")]
+        nfloat SizeAdjustment { get; set; }
+
+        // -(void)setFontDescriptor:(UIFontDescriptor * _Nonnull)fontDescriptor forStyle:(NSString * _Nonnull)style;
+        [Export("setFontDescriptor:forStyle:")]
+        void SetFontDescriptor(UIFontDescriptor fontDescriptor, string style);
+
+        // -(void)setColor:(UIColor * _Nonnull)color forStyle:(NSString * _Nonnull)style;
+        [Export("setColor:forStyle:")]
+        void SetColor(UIColor color, string style);
+    }
 }

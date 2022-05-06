@@ -1,8 +1,7 @@
 ﻿using Foundation;
 using UIKit;
-using UserNotifications;
+using ApptentiveSDK.iOS;
 using System;
-using ApptentiveKit.iOS;
 
 namespace ApptentiveSample
 {
@@ -23,27 +22,20 @@ namespace ApptentiveSample
         {
             // Example of how to override UIAppearance on a View Controller basis
             this.Window.TintColor = UIColor.Red;
-            UIView.AppearanceWhenContainedIn(new System.Type[] { typeof(ApptentiveNavigationController) }).TintColor = UIColor.White;
+            UIView.AppearanceWhenContainedIn(new System.Type[] { typeof(ApptentiveNavigationController) }).TintColor = UIColor.Blue;
 
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-            Apptentive.Shared.Register("IOS-XAMARIN-IOS-8f46ccae63c0", "1bb31ba70317f17edcad284047483dfa", (registered) => System.Console.WriteLine("Registered"));
-            Apptentive.Shared.LogLevel = ApptentiveLogLevel.Verbose;
+            var configuration = new ApptentiveConfiguration("Your Apptentive Key", "Your Apptentive Signature");
+            configuration.LogLevel = ApptentiveLogLevel.Verbose;
+            Apptentive.Register(configuration);
 
-            UNUserNotificationCenter.Current.RequestAuthorization((UNAuthorizationOptions.Sound | UNAuthorizationOptions.Alert), (Boolean Success, NSError Error) =>
-            {
-                if (Success) {
-                    Console.WriteLine("Successfully got notification permission.");
-                }
-                else if (Error != null)
-                {
-                    Console.WriteLine("Failed to get notification permission: " + Error.LocalizedDescription);
-                }
-            });
+            var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                               UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                               new NSSet());
 
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
             UIApplication.SharedApplication.RegisterForRemoteNotifications();
-
-            UNUserNotificationCenter.Current.Delegate = Apptentive.Shared;
 
             return true;
         }
@@ -81,7 +73,7 @@ namespace ApptentiveSample
 
         public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
-            Apptentive.Shared.SetRemoteNotificationDeviceToken(deviceToken);
+            Apptentive.Shared.SetPushNotificationIntegration(ApptentivePushProvider.Apptentive, deviceToken);
         }
 
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
@@ -91,7 +83,12 @@ namespace ApptentiveSample
 
         public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
-            Apptentive.Shared.DidReceiveRemoteNotification(userInfo, completionHandler);
+            Apptentive.Shared.DidReceiveRemoteNotification(userInfo, this.Window.RootViewController, completionHandler);
+        }
+
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            Apptentive.Shared.DidReceiveLocalNotification(notification, this.Window.RootViewController);
         }
     }
 }

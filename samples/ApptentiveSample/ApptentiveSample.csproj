@@ -27,7 +27,6 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
-<CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -93,6 +92,7 @@
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="AuthenticationViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -109,10 +109,15 @@
     <Compile Include="DataViewController.designer.cs">
       <DependentUpon>DataViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="AuthenticationViewController.cs" />
+    <Compile Include="AuthenticationViewController.designer.cs">
+      <DependentUpon>AuthenticationViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\source\ApptentiveKit.iOS.csproj">
-      <Name>ApptentiveKit.iOS</Name>
+    <ProjectReference Include="..\..\source\Apptentive.iOS.csproj">
+      <Project>{2E12D3F8-5171-422B-AD47-C605D74D6372}</Project>
+      <Name>Apptentive.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
