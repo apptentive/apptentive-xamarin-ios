@@ -45,6 +45,7 @@
   <ItemGroup>
     <NativeReference Include="Externals\ApptentiveKit.xcframework">
       <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
