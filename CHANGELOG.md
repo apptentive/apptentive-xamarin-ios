@@ -4,12 +4,6 @@ This document lets you know what has changed in the Xamarin.iOS package. For cha
 
 - [iOS Changelog](https://github.com/apptentive/apptentive-kit-ios/blob/main/CHANGELOG.md)
 
-# 2021-06-22 - v6.0.4
-
-#### Bugs Fixed:
-
-- Set SmartLink to False to include ApptentiveKit framework in NuGet package
-
 # 2021-06-21 - v6.0.3
 
 - Apptentive iOS SDK: 6.0.3
