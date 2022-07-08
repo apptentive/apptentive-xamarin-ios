@@ -1,0 +1,14 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="BeforeCompile">
+        <ItemGroup>
+            <BindingResources Include="$(MSBuildThisFileDirectory)../content/Apptentive.iOS.resources/**/*.*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(BindingResources)" DestinationFolder="$(TargetDir)/Apptentive.iOS.resources/%(RecursiveDir)" ContinueOnError="false" />
+        <ItemGroup>
+            <NativeReference Include="$(TargetDir)/Apptentive.iOS.resources/ApptentiveKit.xcframework">
+                <Kind>Framework</Kind>
+                <SmartLink>False</SmartLink>
+            </NativeReference>
+        </ItemGroup>
+    </Target>
+</Project>
