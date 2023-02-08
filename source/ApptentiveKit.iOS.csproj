@@ -45,7 +45,13 @@
   <ItemGroup>
     <NativeReference Include="Externals\ApptentiveKit.xcframework">
       <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
     </NativeReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ApptentiveKit.iOS.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />

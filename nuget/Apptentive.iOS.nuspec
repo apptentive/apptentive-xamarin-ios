@@ -15,5 +15,7 @@
   </metadata>
   <files>
     <file src="../source/bin/Release/Apptentive.iOS.dll" target="lib/Xamarin.iOS10" />
+    <file src="../source/bin/Release/Apptentive.iOS.resources/**" target="content/Apptentive.iOS.resources" />
+    <file src="../source/ApptentiveKit.iOS.targets" target="build/Apptentive.iOS.targets" />
   </files>
 </package>
