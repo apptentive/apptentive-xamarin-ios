@@ -142,6 +142,18 @@ namespace ApptentiveKit.iOS
 		[Export("dismissAllInteractions:")]
 		void DismissAllInteractions(bool animated);
 
+		// -(void)logInWithToken:(NSString * _Nonnull)token completion:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))completion;
+		[Export("logInWithToken:completion:")]
+		void LogIn(string token, Action<bool, NSError> completion);
+
+		// -(void)logOut;
+		[Export("logOut")]
+		void LogOut();
+
+		// -(void)updateToken:(NSString * _Nonnull)token completion:^(BOOL)completion;
+		[Export("updateToken:completion:")]
+        void UpdateToken(string token, Action<bool> completion);
+
 		// @property (nonatomic) enum ApptentiveLogLevel logLevel;
 		[Export("logLevel", ArgumentSemantic.Assign)]
 		ApptentiveLogLevel LogLevel { get; set; }

@@ -1,7 +1,8 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-compiler-version: Apple Swift version 5.8 (swiftlang-5.8.0.124.2 clang-1403.0.22.11.100)
 // swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ApptentiveKit
 // swift-module-flags-ignorable: -enable-bare-slash-regex
+import CommonCrypto
 import CoreTelephony
 import Foundation
 import MobileCoreServices
@@ -88,18 +89,18 @@ extension ApptentiveKit.MessageCenterViewModel {
       case failed
       public func hash(into hasher: inout Swift.Hasher)
       public static func == (a: ApptentiveKit.MessageCenterViewModel.Message.SentStatus, b: ApptentiveKit.MessageCenterViewModel.Message.SentStatus) -> Swift.Bool
-      public func encode(to encoder: Swift.Encoder) throws
+      public func encode(to encoder: any Swift.Encoder) throws
       public var hashValue: Swift.Int {
         get
       }
-      public init(from decoder: Swift.Decoder) throws
+      public init(from decoder: any Swift.Decoder) throws
     }
     public enum ReadStatus : Swift.Codable, Swift.Equatable {
       case read
       case unread(messageID: Swift.String?)
       public static func == (a: ApptentiveKit.MessageCenterViewModel.Message.ReadStatus, b: ApptentiveKit.MessageCenterViewModel.Message.ReadStatus) -> Swift.Bool
-      public func encode(to encoder: Swift.Encoder) throws
-      public init(from decoder: Swift.Decoder) throws
+      public func encode(to encoder: any Swift.Encoder) throws
+      public init(from decoder: any Swift.Decoder) throws
     }
     public struct Sender : Swift.Equatable {
       public static func == (a: ApptentiveKit.MessageCenterViewModel.Message.Sender, b: ApptentiveKit.MessageCenterViewModel.Message.Sender) -> Swift.Bool
@@ -213,8 +214,12 @@ public enum LogLevel : Swift.Int, Swift.Comparable {
     get
   }
 }
+@objc public protocol ApptentiveDelegate {
+  @objc func authenticationDidFail(with error: any Swift.Error)
+}
 @objc @_hasMissingDesignatedInitializers public class Apptentive : ObjectiveC.NSObject {
   @objc public static let shared: ApptentiveKit.Apptentive
+  @objc weak public var delegate: (any ApptentiveKit.ApptentiveDelegate)?
   public var interactionPresenter: ApptentiveKit.InteractionPresenter {
     get
     set
@@ -258,31 +263,98 @@ public enum LogLevel : Swift.Int, Swift.Comparable {
       get
     }
   }
-  public func register(with credentials: ApptentiveKit.Apptentive.AppCredentials, completion: ((Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)? = nil)
+  public func register(with credentials: ApptentiveKit.Apptentive.AppCredentials, completion: ((Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)? = nil)
+  #if compiler(>=5.3) && $AsyncAwait
+  @available(iOS 13.0.0, *)
+  public func register(with credentials: ApptentiveKit.Apptentive.AppCredentials) async throws
+  #endif
   public struct AppCredentials : Swift.Codable, Swift.Equatable {
     public let key: Swift.String
     public let signature: Swift.String
     public init(key: Swift.String, signature: Swift.String)
     public static func == (a: ApptentiveKit.Apptentive.AppCredentials, b: ApptentiveKit.Apptentive.AppCredentials) -> Swift.Bool
-    public func encode(to encoder: Swift.Encoder) throws
-    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
   }
-  public func engage(event: ApptentiveKit.Event, from viewController: UIKit.UIViewController? = nil, completion: ((Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)? = nil)
+  public func engage(event: ApptentiveKit.Event, from viewController: UIKit.UIViewController? = nil, completion: ((Swift.Result<Swift.Bool, any Swift.Error>) -> Swift.Void)? = nil)
+  #if compiler(>=5.3) && $AsyncAwait
+  @available(iOS 13.0.0, *)
+  public func engage(event: ApptentiveKit.Event, from viewController: UIKit.UIViewController? = nil) async throws -> Swift.Bool
+  #endif
   public func dismissAllInteractions(animated: Swift.Bool)
-  public func presentMessageCenter(from viewController: UIKit.UIViewController?, completion: ((Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)? = nil)
-  public func presentMessageCenter(from viewController: UIKit.UIViewController?, with customData: ApptentiveKit.CustomData?, completion: ((Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)? = nil)
+  public func presentMessageCenter(from viewController: UIKit.UIViewController?, completion: ((Swift.Result<Swift.Bool, any Swift.Error>) -> Swift.Void)? = nil)
+  public func presentMessageCenter(from viewController: UIKit.UIViewController?, with customData: ApptentiveKit.CustomData?, completion: ((Swift.Result<Swift.Bool, any Swift.Error>) -> Swift.Void)? = nil)
+  #if compiler(>=5.3) && $AsyncAwait
+  @available(iOS 13.0.0, *)
+  public func presentMessageCenter(from viewController: UIKit.UIViewController?, with customData: ApptentiveKit.CustomData? = nil) async throws -> Swift.Bool
+  #endif
   @objc(sendAttachmentText:) public func sendAttachment(_ text: Swift.String)
   @objc(sendAttachmentImage:) public func sendAttachment(_ image: UIKit.UIImage)
   @objc(sendAttachmentFile:withMimeType:) public func sendAttachment(_ fileData: Foundation.Data, mediaType: Swift.String)
-  public func canShowInteraction(event: ApptentiveKit.Event, completion: ((Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)? = nil)
+  public func canShowInteraction(event: ApptentiveKit.Event, completion: ((Swift.Result<Swift.Bool, any Swift.Error>) -> Swift.Void)? = nil)
+  #if compiler(>=5.3) && $AsyncAwait
+  @available(iOS 13.0.0, *)
+  public func canShowInteraction(event: ApptentiveKit.Event) async throws -> Swift.Bool
+  #endif
+  public func canShowMessageCenter(completion: ((Swift.Result<Swift.Bool, any Swift.Error>) -> Swift.Void)? = nil)
+  #if compiler(>=5.3) && $AsyncAwait
+  @available(iOS 13.0.0, *)
+  public func canShowMessageCenter() async throws -> Swift.Bool
+  #endif
+  public func logIn(with token: Swift.String, completion: @escaping (Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)
+  #if compiler(>=5.3) && $AsyncAwait
+  @available(iOS 13.0.0, *)
+  public func logIn(with token: Swift.String) async throws
+  #endif
+  public func logOut(completion: ((Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)?)
+  #if compiler(>=5.3) && $AsyncAwait
+  @available(iOS 13.0.0, *)
+  public func logOut() async throws
+  #endif
+  public func updateToken(_ token: Swift.String, completion: ((Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)? = nil)
+  #if compiler(>=5.3) && $AsyncAwait
+  @available(iOS 13.0.0, *)
+  public func updateToken(_ token: Swift.String) async throws
+  #endif
   convenience public init(apiBaseURL: Foundation.URL)
   @objc deinit
 }
-public enum ApptentiveError : Swift.Error {
+public enum ApptentiveError : Swift.Error, Foundation.LocalizedError {
   case internalInconsistency
   case invalidCustomDataType(Any?)
   case fileExistsAtContainerDirectoryPath
-  case mismatchedCredentials
+  case unsupportedBackendStateTransition
+  case emptyEventName
+  case notLoggedIn
+  case alreadyLoggedIn(subject: Swift.String, id: Swift.String)
+  case loginCalledBeforeRegister
+  case activeConversationPending
+  case missingSubClaim
+  case mismatchedSubClaim
+  case invalidEncryptionKey
+  case noActiveConversation
+  case authenticationFailed(reason: ApptentiveKit.AuthenticationFailureReason?, responseString: Swift.String?)
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+public enum AuthenticationFailureReason : Swift.String, Swift.Codable {
+  case invalidAlgorithm
+  case malformedToken
+  case invalidToken
+  case missingSubClaim
+  case mismatchedSubClaim
+  case invalidSubClaim
+  case expiredToken
+  case revokedToken
+  case missingAppKey
+  case missingAppSignature
+  case invalidKeySignaturePair
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
 }
 public var apptentiveAssertionHandler: (_ message: @autoclosure () -> Swift.String, _ file: Swift.StaticString, _ line: Swift.UInt) -> ()
 public protocol CustomDataCompatible {
@@ -299,15 +371,15 @@ extension Swift.Bool : ApptentiveKit.CustomDataCompatible {
 }
 public struct CustomData : Swift.Equatable, Swift.Codable {
   public init()
-  public subscript(key: Swift.String) -> ApptentiveKit.CustomDataCompatible? {
+  public subscript(key: Swift.String) -> (any ApptentiveKit.CustomDataCompatible)? {
     get
     set
   }
-  public var keys: Swift.Dictionary<Swift.String, ApptentiveKit.CustomDataCompatible>.Keys {
+  public var keys: Swift.Dictionary<Swift.String, any ApptentiveKit.CustomDataCompatible>.Keys {
     get
   }
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
   public static func == (lhs: ApptentiveKit.CustomData, rhs: ApptentiveKit.CustomData) -> Swift.Bool
 }
 public protocol SurveyViewModelDelegate : AnyObject {
@@ -329,7 +401,7 @@ public protocol SurveyViewModelDelegate : AnyObject {
   public struct CloseConfirmation {
   }
   final public let closeConfirmation: ApptentiveKit.SurveyViewModel.CloseConfirmation
-  weak public var delegate: ApptentiveKit.SurveyViewModelDelegate?
+  weak public var delegate: (any ApptentiveKit.SurveyViewModelDelegate)?
   public var currentPage: ApptentiveKit.SurveyViewModel.Page {
     get
   }
@@ -400,15 +472,14 @@ public protocol MessageCenterViewModelDelegate : AnyObject {
   func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didDeleteRowsAt indexPaths: [Foundation.IndexPath])
   func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didUpdateRowsAt indexPaths: [Foundation.IndexPath])
   func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didInsertRowsAt indexPaths: [Foundation.IndexPath])
-  func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didMoveRowsAt indexPathMoves: [(Foundation.IndexPath, Foundation.IndexPath)])
   func messageCenterViewModelDidEndUpdates(_: ApptentiveKit.MessageCenterViewModel)
   func messageCenterViewModelMessageListDidLoad(_: ApptentiveKit.MessageCenterViewModel)
   func messageCenterViewModelDraftMessageDidUpdate(_: ApptentiveKit.MessageCenterViewModel)
-  func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didFailToRemoveAttachmentAt index: Swift.Int, with error: Swift.Error)
-  func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didFailToAddAttachmentWith error: Swift.Error)
-  func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didFailToSendMessageWith error: Swift.Error)
+  func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didFailToRemoveAttachmentAt index: Swift.Int, with error: any Swift.Error)
+  func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didFailToAddAttachmentWith error: any Swift.Error)
+  func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, didFailToSendMessageWith error: any Swift.Error)
   func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, attachmentDownloadDidFinishAt index: Swift.Int, inMessageAt indexPath: Foundation.IndexPath)
-  func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, attachmentDownloadDidFailAt index: Swift.Int, inMessageAt indexPath: Foundation.IndexPath, with error: Swift.Error)
+  func messageCenterViewModel(_: ApptentiveKit.MessageCenterViewModel, attachmentDownloadDidFailAt index: Swift.Int, inMessageAt indexPath: Foundation.IndexPath, with error: any Swift.Error)
 }
 @_hasMissingDesignatedInitializers public class MessageCenterViewModel {
   final public let headingTitle: Swift.String
@@ -530,16 +601,17 @@ extension ApptentiveKit.Apptentive {
   public var engagementManifestURL: Foundation.URL? {
     get
   }
-  public func loadEngagementManifest(at url: Foundation.URL?, completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
+  public func loadEngagementManifest(at url: Foundation.URL?, completion: @escaping (Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)
   public func getInteractionList(_ completion: @escaping ([ApptentiveKit.Apptentive.InteractionListItem]) -> Swift.Void)
-  public func presentInteraction(with id: Swift.String, completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
-  public func presentInteraction(at url: Foundation.URL, completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
+  public func presentInteraction(with id: Swift.String, completion: @escaping (Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)
+  public func presentInteraction(at url: Foundation.URL, completion: @escaping (Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)
   public struct InteractionListItem {
     public let id: Swift.String
     public let displayName: Swift.String
     public let typeName: Swift.String
   }
   public func getEventList(_ completion: @escaping ([Swift.String]) -> Swift.Void)
+  public func getConnectionInfo(_ completion: @escaping (_ state: Swift.String?, _ id: Swift.String?, _ token: Swift.String?, _ subject: Swift.String?, _ buttonLabel: Swift.String?) -> Swift.Void)
 }
 extension ApptentiveKit.SurveyViewModel {
   @_hasMissingDesignatedInitializers public class Question {
@@ -598,7 +670,7 @@ public protocol DialogViewModelDelegate : AnyObject {
   final public let message: Swift.String?
   final public let dialogType: ApptentiveKit.DialogViewModel.DialogType
   final public let actions: [ApptentiveKit.DialogViewModel.Action]
-  weak public var delegate: ApptentiveKit.DialogViewModelDelegate?
+  weak public var delegate: (any ApptentiveKit.DialogViewModelDelegate)?
   public func buttonSelected(at position: Swift.Int)
   public func launch()
   public func cancel()
@@ -740,11 +812,11 @@ extension ApptentiveKit.Apptentive {
   }
   @available(*, deprecated, message: "This method is not currently implemented and will trigger an assertion failure.")
   @objc dynamic public func checkSDKConfiguration()
-  @available(*, deprecated, message: "This method is not currently implemented and will trigger an assertion failure.")
-  @objc dynamic public func logIn(withToken token: Swift.String, completion: @escaping (Swift.Bool, Swift.Error) -> Swift.Void)
-  @available(*, deprecated, message: "This method is not currently implemented and will trigger an assertion failure.")
+  @available(swift, deprecated: 1.0, message: "Use the method whose completion handler takes a Result<Void, Error> parameter.")
+  @objc dynamic public func logIn(withToken token: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
+  @available(swift, deprecated: 1.0, message: "Use the method whose completion handler takes a Result<Void, Error> parameter.")
   @objc dynamic public func logOut()
-  @available(*, deprecated, message: "Multiple users on the same device is not currently supported.")
+  @available(swift, deprecated: 1.0, message: "Assign an object that conforms to the 'ApptentiveDelegate' protocol to the Apptentive instance's 'delegate' property.")
   @objc dynamic public var authenticationFailureCallback: ApptentiveKit.ApptentiveAuthenticationFailureCallback? {
     @objc get
     @objc set
@@ -754,7 +826,7 @@ extension ApptentiveKit.Apptentive {
     @objc get
     @objc set
   }
-  @available(*, deprecated, message: "This method is not currently implemented and will trigger an assertion failure.")
+  @available(swift, deprecated: 1.0, message: "Use the method whose completion handler takes a Result<Void, Error> parameter.")
   @objc dynamic public func updateToken(_ token: Swift.String, completion: ((Swift.Bool) -> Swift.Void)? = nil)
   @available(swift, deprecated: 1.0, message: "Set the 'logLevel' property on 'ApptentiveLogger' or one of it's static log properties.")
   @objc dynamic public var logLevel: ApptentiveKit.ApptentiveLogLevel {
@@ -785,11 +857,11 @@ extension UIKit.UIViewController {
     @objc set
   }
 }
-@available(*, deprecated, message: "Multiple users on the same device is not currently supported.")
-public typealias ApptentiveAuthenticationFailureCallback = (ApptentiveKit.ApptentiveAuthenticationFailureReason, Swift.String) -> Swift.Void
+@available(swift, deprecated: 1.0, message: "Use the 'AuthenticationFailureReason' enumeration.")
+public typealias ApptentiveAuthenticationFailureCallback = (ApptentiveKit.ApptentiveAuthenticationFailureReason, Swift.String?) -> Swift.Void
 @available(*, deprecated, message: "This feature is no longer supported.")
 public typealias ApptentiveInteractionCallback = (Swift.String, [Swift.AnyHashable : Any]?) -> Swift.Bool
-@available(*, deprecated, message: "Multiple users on the same device is not currently supported.")
+@available(swift, deprecated: 1.0, message: "Use the 'AuthenticationFailureReason' enumeration.")
 @objc public enum ApptentiveAuthenticationFailureReason : Swift.Int {
   case unknown = 0
   case invalidAlgorithm = 1
@@ -1112,7 +1184,9 @@ extension UIKit.UIColor {
   public static var apptentiveUnselectedSurveyIndicatorSegment: UIKit.UIColor
   public static var apptentiveSelectedSurveyIndicatorSegment: UIKit.UIColor
   @objc public static var apptentiveMessageCenterBackground: UIKit.UIColor
+  @available(*, deprecated, message: "This property has been renamed to 'apptentiveAttachmentRemoveButton'.")
   @objc public static var apptentiveMessageCenterAttachmentDeleteButton: UIKit.UIColor
+  @objc public static var apptentiveAttachmentRemoveButton: UIKit.UIColor
   @objc public static var apptentiveMessageCenterComposeBoxBackground: UIKit.UIColor
   @objc public static var apptentiveMessageCenterComposeBoxSeparator: UIKit.UIColor
   @objc public static var apptentiveTextInputBorderSelected: UIKit.UIColor
@@ -1167,6 +1241,9 @@ extension ApptentiveKit.LogLevel : Swift.Hashable {}
 extension ApptentiveKit.LogLevel : Swift.RawRepresentable {}
 extension ApptentiveKit.Apptentive.UITheme : Swift.Equatable {}
 extension ApptentiveKit.Apptentive.UITheme : Swift.Hashable {}
+extension ApptentiveKit.AuthenticationFailureReason : Swift.Equatable {}
+extension ApptentiveKit.AuthenticationFailureReason : Swift.Hashable {}
+extension ApptentiveKit.AuthenticationFailureReason : Swift.RawRepresentable {}
 extension ApptentiveKit.SurveyViewModel.DisplayMode : Swift.Equatable {}
 extension ApptentiveKit.SurveyViewModel.DisplayMode : Swift.Hashable {}
 extension ApptentiveKit.MessageCenterViewModel.ProfileMode : Swift.Equatable {}
@@ -1175,11 +1252,11 @@ extension ApptentiveKit.MessageCenterViewModelError : Swift.Equatable {}
 extension ApptentiveKit.MessageCenterViewModelError : Swift.Hashable {}
 extension ApptentiveKit.DialogViewModel.DialogType : Swift.Equatable {}
 extension ApptentiveKit.DialogViewModel.DialogType : Swift.Hashable {}
-@available(*, deprecated, message: "Multiple users on the same device is not currently supported.")
+@available(swift, deprecated: 1.0, message: "Use the 'AuthenticationFailureReason' enumeration.")
 extension ApptentiveKit.ApptentiveAuthenticationFailureReason : Swift.Equatable {}
-@available(*, deprecated, message: "Multiple users on the same device is not currently supported.")
+@available(swift, deprecated: 1.0, message: "Use the 'AuthenticationFailureReason' enumeration.")
 extension ApptentiveKit.ApptentiveAuthenticationFailureReason : Swift.Hashable {}
-@available(*, deprecated, message: "Multiple users on the same device is not currently supported.")
+@available(swift, deprecated: 1.0, message: "Use the 'AuthenticationFailureReason' enumeration.")
 extension ApptentiveKit.ApptentiveAuthenticationFailureReason : Swift.RawRepresentable {}
 @available(*, deprecated, message: "Selecting a push notification provider is no longer supported.")
 extension ApptentiveKit.ApptentivePushProvider : Swift.Equatable {}

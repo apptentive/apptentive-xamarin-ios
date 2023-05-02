@@ -22,11 +22,11 @@ namespace ApptentiveSample
 
             EngageButton.TouchUpInside += delegate {
                 var eventName = EventNameTextField.Text;
-                Apptentive.Shared.Engage(eventName, this, (engaged) => Console.WriteLine("Event engaged: " + engaged) );
+                Apptentive.Shared.Engage(eventName, this, (engaged) => Console.WriteLine("Event engaged: " + engaged));
             };
 
             MessageCenterButton.TouchUpInside += delegate {
-                Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented) );
+                Apptentive.Shared.PresentMessageCenter(this, (presented) => Console.WriteLine("Message center presented: " + presented));
             };
 
             CanShowInteractionButton.TouchUpInside += delegate {
@@ -59,7 +59,13 @@ namespace ApptentiveSample
         {
             base.PrepareForSegue(segue, sender);
 
-            if (segue.Identifier == "PersonData")
+            if (segue.Identifier == "Authentication")
+            {
+                AuthenticationViewController VC = (AuthenticationViewController)segue.DestinationViewController;
+
+                // do stuff
+            }
+            else if (segue.Identifier == "PersonData")
             {
                 DataViewController VC = (DataViewController)segue.DestinationViewController;
 
